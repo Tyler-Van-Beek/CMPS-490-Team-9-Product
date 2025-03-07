@@ -5,6 +5,9 @@ class User(models.Model):
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
 
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+
 class Event(models.Model):
     organizerID = models.ForeignKey(User, on_delete=models.CASCADE)
     categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -26,6 +29,3 @@ class Registration(models.Model):
     eventID = models.ForeignKey(Event, on_delete=models.CASCADE)
     registrationStatus = models.CharField(max_length=50)
     registrationDate = models.DateField()
-
-class Category(models.Model):
-    name = models.CharField(max_length=50)
