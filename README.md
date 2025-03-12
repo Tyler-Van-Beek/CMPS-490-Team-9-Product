@@ -20,6 +20,7 @@ HOW TO INSTALL A VIRTUAL ENVIRONMENT FOR THIS PROJECT
 7. Press "y" on your keyboard to proceed when prompted while the environment is created. 
    
 8. The environment is now created. In the same command prompt, you can use "conda activate <name>" to turn it on and "conda deactivate" to turn it off.
+
 CMPS 490 Project
 
 For our local accessability we plan on using the run and debug feature on Visual Studio.
