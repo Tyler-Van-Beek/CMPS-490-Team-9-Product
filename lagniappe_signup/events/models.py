@@ -5,8 +5,6 @@ from django.core.validators import MaxValueValidator
 # Create your models here.
 class Users(AbstractUser): # AbstractUser comes with a whole bunch of attributes
     UserID = models.AutoField(("userID"), primary_key=True) # autofield automatically increments an int as a new row is created
-    Username = models.CharField(("username"), max_length=150, default='') 
-    Password = models.CharField(("password"), max_length=50, default="default_password")
 
     # required attributes for AbstractUser. I Set them to blank so they don't get in the way.
     groups = models.ManyToManyField(
@@ -21,7 +19,7 @@ class Users(AbstractUser): # AbstractUser comes with a whole bunch of attributes
     )
 
 class Category(models.Model):
-    CategoryID = models.CharField(("categoryID"), primary_key= True, unique=True, max_length=50)
+    CategoryID = models.AutoField(("eventID"), primary_key=True)
     Name = models.CharField(("name"), unique=True, max_length=200)
 
 class Event(models.Model):
@@ -29,7 +27,7 @@ class Event(models.Model):
     OrganizerID = models.ForeignKey(Users, on_delete=models.CASCADE)
     CategoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
     Title = models.CharField(("title"), max_length=100)
-    Description = models.CharField(("description"), max_length=100)
+    Description = models.CharField(("description"), max_length=500)
     Location = models.CharField(("location"), max_length=100)
     DateTime = models.DateTimeField(("datetime"), null=True)
     EventStatus = models.BooleanField(("eventstatus"), default=True)
