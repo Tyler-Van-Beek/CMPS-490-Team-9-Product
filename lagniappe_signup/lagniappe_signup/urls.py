@@ -18,10 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from events.models import Users, Event, Category, Feedback, Registration
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.homepage,name='home'),
     path('about/', views.about),
     path('signin/',views.signin,name='signin'),
+    path('event/create', views.create_event, name="event-create"),
+    path('event/list', views.list_event, name="event-list"),
+
 ]
