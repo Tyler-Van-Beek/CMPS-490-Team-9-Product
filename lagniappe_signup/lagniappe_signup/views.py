@@ -26,7 +26,7 @@ class create_event(CreateView):
             'DateTime',
             'EventStatus',
         ]
-    template_name = 'create_view.html'
+    template_name = 'create_event.html'
     success_url = reverse_lazy('event/list')
 
     def get_context_data(self, **kwargs):
@@ -51,15 +51,21 @@ class create_reg(CreateView):
             'EventID',
         ]
     template_name = 'create_registration.html'
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('registration/list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Fetch Users and Categories and add them to the context
+        # Fetch Users and Events and add them to the context
         context['Users'] = Users.objects.all()
         context['Events'] = Event.objects.all()
         
         return context
+    
+class list_reg(ListView):
+    model = Registration
+    template_name = 'registration_list.html'
+    context_object_name = 'registrations'
+    paginate = 20  
     
 # (creating list and create views for event, getting HTTP error for both of them)
