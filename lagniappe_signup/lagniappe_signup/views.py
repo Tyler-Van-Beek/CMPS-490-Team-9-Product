@@ -7,5 +7,8 @@ def homepage(request):
     return render(request,'home.html')
 
 
-def about(request):
-    return HttpResponse("This is the about page")
+def about_page(request):
+    """
+    View function for the About Us page.
+    """
+    return render(request, 'about/about.html')
