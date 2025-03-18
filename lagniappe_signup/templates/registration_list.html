@@ -2,19 +2,16 @@
 
 
 {% block content %}
-  <h1>Event List</h1>
+  <h1>Registrations</h1>
   
-  {% if events %}
+  {% if registrations %}
     <ul>
-      {% for event in events %}
+      {% for r in registrations %}
         <li>
-          <h2>{{ event.Title }}</h2>
-          <p><strong>Organizer:</strong> {{ event.OrganizerID }}</p>
-          <p><strong>Category:</strong> {{ event.Name }}</p>
-          <p><strong>Location:</strong> {{ event.Location }}</p>
-          <p><strong>Date and Time:</strong> {{ event.DateTime }}</p>
-          <p><strong>Status:</strong> {% if event.EventStatus %}Active{% else %}Inactive{% endif %}</p>
-          <p>{{ event.Description }}</p>
+          <h2>{{ r.RegistrationID }}</h2>
+          <p><strong>Registered User:</strong> {{ r.UserID }}</p>
+          <p><strong>For Event:</strong> {{ r.EventID }}</p>
+          <p><strong>Registration Status:</strong> {% if r.RegistrationStatus %}Active{% else %}Inactive{% endif %}</p>
         </li>
       {% endfor %}
     </ul>
@@ -41,6 +38,6 @@
     </div>
 
   {% else %}
-    <p>No events available.</p>
+    <p>No registrations registered.</p>
   {% endif %}
 {% endblock %}
