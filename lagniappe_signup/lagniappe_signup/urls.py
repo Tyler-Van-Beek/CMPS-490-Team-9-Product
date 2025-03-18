@@ -25,7 +25,7 @@ urlpatterns = [
     path('', views.homepage,name='home'),
     path('about/', views.about),
     path('signin/',views.signin,name='signin'),
-    path('event/create', views.create_event, name="event-create"),
-    path('event/list', views.list_event, name="event-list"),
-
+    path('event/create', views.create_event.as_view(), name="event-create"),
+    path('event/list', views.list_event.as_view(), name="event-list"),
+    path('registration/create', views.create_reg.as_view(), name="registration-create")
 ]
