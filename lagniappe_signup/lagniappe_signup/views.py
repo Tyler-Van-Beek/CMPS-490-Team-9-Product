@@ -15,6 +15,10 @@ def about(request):
 
 def signin(request):
     return render(request,'signin.html')
+
+def eventMap(request):
+    return render(request,'eventMap.html')
+
 class create_event(CreateView):
     model = Event
     fields = [
