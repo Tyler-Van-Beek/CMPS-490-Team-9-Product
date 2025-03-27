@@ -44,6 +44,26 @@ class create_event(CreateView):
         context['Category'] = Category.objects.all()
         return context
 
+def EventForm(request):
+    if request.method == 'POST':
+        organizer = request.POST.get('Organizer')
+        category = request.POST.get('Category')
+        title = request.POST.get('Title')
+        description = request.POST.get('Description')
+        location = request.POST.get('Location')
+        dateTime = request.POST.get('DateTime')
+        eventStatus = request.Post.get('EventStatus')
+
+        organizer = Users.objects.get(UserID=organizer)
+        category = Category.objects.get(Name=category)
+
+        event = Event(OrganizerID=organizer, CategoryID=category, Title=title, Description=description, Location=location, DateTime=dateTime, EventStatus=eventStatus)
+        event.save()
+
+        return redirect("event-list")
+    else:
+        return HttpResponse("Only POST requests are allowed.", status=405)
+
 class list_event(ListView):
     model = Event
     template_name = 'event_list.html'
@@ -71,7 +91,7 @@ def create_reg(request):
     }
 
     return render(request, 'create_registration.html', context)
-    
+
 class list_reg(ListView):
     model = Registration
     template_name = 'registration_list.html'

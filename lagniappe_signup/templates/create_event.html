@@ -14,12 +14,12 @@
     <div class="container">
         <h1>Create New Event</h1>
 
-        <form action="EventForm" method="POST">
+        <form action="event-list" method="POST">
             {% csrf_token %}
             
             <div class="form-group">
                 <label for="OrganizerID">Organizer</label>
-                <select id="OrganizerID" name="OrganizerID" required>
+                <select id="OrganizerID" name="Organizer" required>
                     <!-- Populate with available organizers (users) -->
                     {% for user in Users %}
                     <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 <label for="CategoryID">Category</label>
-                <select id="CategoryID" name="CategoryID" required>
+                <select id="CategoryID" name="Category" required>
                     <!-- Populate with available categories -->
                     {% for c in Category %}
                         <option value="{{ c.Name }}">{{ c.Name }}</option>
