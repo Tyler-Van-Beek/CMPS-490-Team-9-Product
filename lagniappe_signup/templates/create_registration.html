@@ -14,7 +14,7 @@
     <div class="container">
         <h1>Register for an Event</h1>
 
-        <form action="RegistrationForm" method="POST">
+        <form action="RegistrationForm/" method="POST">
             {% csrf_token %}
             
             <div class="form-group">
@@ -32,7 +32,7 @@
                 <select id="EventID" name="Event" required>
                     <!-- Populate with available categories -->
                     {% for events in Events %}
-                        <option value="{{ events.Title }}">{{ events.Title }}</option>
+                        <option value="{{ events.EventID }}">{{ events.Title }}</option>
                     {% endfor %}
                 </select>
             </div>

@@ -52,18 +52,25 @@ class list_event(ListView):
 
 def create_reg(request):
     if request.method == 'POST':
-        eventID = request.POST.get('Event')
-        userID = request.POST.get('User')
-
-        event = Event.objects.get(EventID=eventID)
-        user = Users.objects.get(UserID=userID)
-        
-        registration = Registration(UserID=userID, EventID=event)
-        registration.save()
-
-        return redirect("registration-list")
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registration-list')  
     else:
-        return HttpResponse("Only POST requests are allowed.", status=405)
+        form = RegistrationForm(request)
+
+    # Fetch Users and Events for the context
+    users = Users.objects.all()
+    events = Event.objects.all()
+
+    # Pass data to the template
+    context = {
+        'form': form,
+        'Users': users,
+        'Events': events,
+    }
+
+    return render(request, 'create_registration.html', context)
     
 class list_reg(ListView):
     model = Registration
@@ -79,7 +86,7 @@ def RegistrationForm(request):
         event = Event.objects.get(EventID=eventID)
         user = Users.objects.get(UserID=userID)
         
-        registration = Registration(UserID=userID, EventID=event)
+        registration = Registration(UserID=user, EventID=event)
         registration.save()
 
         return redirect("registration-list")
