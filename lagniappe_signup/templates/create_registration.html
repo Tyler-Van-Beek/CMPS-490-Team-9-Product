@@ -1,0 +1,48 @@
+{% extends "headBanner.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Registration</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Register for an Event</h1>
+
+        <form action="/create_event/" method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="UserID">User</label>
+                <select id="UserID" name="UserID" required>
+                    <!-- Populate with available organizers (users) -->
+                    {% for user in Users %}
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="EventID">Event</label>
+                <select id="CategoryID" name="CategoryID" required>
+                    <!-- Populate with available categories -->
+                    {% for events in Events %}
+                        <option value="{{ events.Title }}">{{ events.Title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Create Event</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
+{% endblock %}
