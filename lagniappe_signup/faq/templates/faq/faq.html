@@ -1,0 +1,60 @@
+<!-- faq.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="Find answers to frequently asked questions about Lagniappe events.">
+    <meta name="keywords" content="FAQ, events, Lagniappe, signup, support">
+    <meta name="author" content="Lagniappe Team">
+    
+    <title>FAQs</title>
+
+    <style>
+        body {
+            background-color: #9b59b6;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px; /* Added space below the heading */
+        }
+        .faq-item {
+            background-color: #ffffff;
+            color: #333;
+            padding: 20px;  /* Increased padding */
+            margin-bottom: 30px;  /* Added more space between items */
+            border-radius: 5px;
+            border: 2px solid #ddd;  /* Optional: Light border */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Soft shadow */
+        }
+        .faq-item h3 {
+            margin: 0;
+            font-size: 20px; /* Slightly larger text */
+        }
+        .faq-item p {
+            margin: 10px 0; /* Added spacing inside the item */
+        }
+    </style>
+</head>
+<body>
+    <div class="faq-container">
+        <h1>FAQs</h1>
+
+        {% for faq in faqs %}
+        <div class="faq-item">
+            <h3>{{ faq.question }}</h3>
+            <p>{{ faq.answer }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+</body>
+</html>

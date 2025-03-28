@@ -3,15 +3,19 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
 from .forms import EventForm
-from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 
 def homepage(request):
     return render(request,'home.html')
 
-def about(request):
-    return HttpResponse("This is the about page")
+
+def about_page(request):
+    """
+    View function for the About Us page.
+    """
+    return render(request, 'about/about.html')
+
 
 def signin(request):
     return render(request,'signin.html')
@@ -38,7 +42,7 @@ class create_event(CreateView):
         
         # Fetch Users and Categories and add them to the context
         context['Users'] = Users.objects.all()
-        context['Category'] = Category.objects.all()
+        context['Category'] = Category.objects.all() # pylint: disable=no-member
         
         return context
 
@@ -62,7 +66,7 @@ class create_reg(CreateView):
         
         # Fetch Users and Events and add them to the context
         context['Users'] = Users.objects.all()
-        context['Events'] = Event.objects.all()
+        context['Events'] = Event.objects.all() # pylint: disable=no-member
         
         return context
     

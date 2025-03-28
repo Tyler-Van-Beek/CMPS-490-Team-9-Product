@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Learn more about Lagniappe, a platform for local event creation and promotion.">
+    <meta name="keywords" content="About Us, Lagniappe, Events, Sign-Up, Community">
+    <meta name="author" content="Lagniappe Team">
+
+    <title>About Us - Lagniappe</title>
+
+    {% load static %}
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d3f3f0;  /* ✅ Keeps the nice background color */
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* ✅ Removes the green box by setting container background to 'none' */
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: none;  /* ✅ Removes any colored background */
+            background: none;
+        }
+
+        /* ✅ Keeps only the description box with a white background */
+        .description-box {
+            background: white;  /* ✅ White background only behind text */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;  /* ✅ Adds space between sections */
+        }
+
+        /* ✅ Doubles the size of the logo */
+        .logo img {
+            width: 300px;  /* ✅ Increased from 150px to 300px */
+            height: 300px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>About Us</h1>
+
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Lagniappe Logo" width="300" height="300">
+        </div>
+
+        <!-- ✅ Only the descriptions are inside the white box -->
+        <div class="description-box">
+            <h2>Description</h2>
+            <p>
+                Lagniappe Sign-Up is a local event platform that allows users to create, edit, find, and join events.
+            </p>
+
+            <h2>Why We Started?</h2>
+            <p>
+                We started to give people in the local area the ability to promote events. Also, to provide an easier way to find out about events you may have been unaware of!
+            </p>
+        </div>
+    </div>
+</body>
+</html>
