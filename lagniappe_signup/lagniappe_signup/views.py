@@ -21,30 +21,29 @@ def signin(request):
 
 def eventMap(request):
     return render(request,'eventMap.html')
-class create_event(CreateView):
-    model = Event
-    fields = [
-            'OrganizerID',
-            'CategoryID',
-            'Title',
-            'Description',
-            'Location',
-            'DateTime',
-            'EventStatus',
-        ]
-    
-    template_name = 'create_event.html'
-    success_url = reverse_lazy('lagniappe_signup:event-list')
+def create_event(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('event-list')  
+    else:
+        form = EventForm(request)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        # Fetch Users and Categories and add them to the context
-        context['Users'] = Users.objects.all()
-        context['Category'] = Category.objects.all()
-        return context
+    # Fetch Users and Events for the context
+    users = Users.objects.all()
+    category = Category.objects.all()
 
-def EventForm(request):
+    # Pass data to the template
+    context = {
+        'form': form,
+        'Users': users,
+        'Category': category,
+    }
+
+    return render(request, 'create_event.html', context)
+
+def eventForm(request):
     if request.method == 'POST':
         organizer = request.POST.get('Organizer')
         category = request.POST.get('Category')
@@ -52,12 +51,11 @@ def EventForm(request):
         description = request.POST.get('Description')
         location = request.POST.get('Location')
         dateTime = request.POST.get('DateTime')
-        eventStatus = request.Post.get('EventStatus')
 
         organizer = Users.objects.get(UserID=organizer)
         category = Category.objects.get(Name=category)
 
-        event = Event(OrganizerID=organizer, CategoryID=category, Title=title, Description=description, Location=location, DateTime=dateTime, EventStatus=eventStatus)
+        event = Event(OrganizerID=organizer, CategoryID=category, Title=title, Description=description, Location=location, DateTime=dateTime)
         event.save()
 
         return redirect("event-list")

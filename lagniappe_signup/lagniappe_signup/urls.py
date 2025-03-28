@@ -25,10 +25,11 @@ urlpatterns = [
     path('', views.homepage,name='home'),
     path('about/', views.about),
     path('signin/',views.signin,name='signin'),
-    path('event/create', views.create_event.as_view(), name="event-create"),
+    path('event/create', views.create_event, name="event-create"),
     path('event/list', views.list_event.as_view(), name="event-list"),
     path('registration/create', views.create_reg, name="registration-create"),
     path('registration/list', views.list_reg.as_view(), name="registration-list"),
     path('registration/RegistrationForm/', views.RegistrationForm, name="registration-form"),
+    path('event/event-list/', views.eventForm, name="event-form"),
     path('map/', views.eventMap,name='map'),
 ]
