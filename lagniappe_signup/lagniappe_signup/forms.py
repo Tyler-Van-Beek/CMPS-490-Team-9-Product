@@ -1,5 +1,5 @@
 from django import forms 
-from events.models import Event
+from events.models import Event, Registration
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -14,3 +14,8 @@ class EventForm(forms.ModelForm):
             'DateTime',
             'EventStatus',
         ]
+
+class RegistrationForm(forms.ModelForm):
+    class Meta:
+        model = Registration
+        fields = ['UserID', 'EventID']
