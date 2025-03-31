@@ -153,6 +153,17 @@ def create_feedback(request):
     else:
         form = FeedbackForm(request)
 
-    return request(request, 'create_feedback.html', {'form': form})
+    # Fetch Users and Events for the context
+    users = Users.objects.all()
+    events = Event.objects.all()
+
+    # Pass data to the template
+    context = {
+        'form': form,
+        'Users': users,
+        'Events': events,
+    }
+
+    return render(request, 'create_feedback.html', context)
 
 # (creating list and create views for event, getting HTTP error for both of them)
