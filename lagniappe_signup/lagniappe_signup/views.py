@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
@@ -6,7 +6,13 @@ from .forms import EventForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+<<<<<<< HEAD
 from django.contrib.auth.decorators import login_required
+=======
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.http import JsonResponse
+>>>>>>> 10d5e3cea5bcf75c9eab569d65f5a56076a4d11c
 
 def homepage(request):
     return render(request,'home.html')
@@ -19,7 +25,16 @@ def signin(request):
 
 def eventMap(request):
     return render(request,'eventMap.html')
+def create_event(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('event-list')  
+    else:
+        form = EventForm(request)
 
+<<<<<<< HEAD
 @login_required
 class create_event(CreateView):
     model = Event
@@ -34,15 +49,39 @@ class create_event(CreateView):
         ]
     template_name = 'create_event.html'
     success_url = reverse_lazy('event/list')
+=======
+    # Fetch Users and Events for the context
+    users = Users.objects.all()
+    category = Category.objects.all()
+>>>>>>> 10d5e3cea5bcf75c9eab569d65f5a56076a4d11c
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        # Fetch Users and Categories and add them to the context
-        context['Users'] = Users.objects.all()
-        context['Category'] = Category.objects.all()
-        
-        return context
+    # Pass data to the template
+    context = {
+        'form': form,
+        'Users': users,
+        'Category': category,
+    }
+
+    return render(request, 'create_event.html', context)
+
+def eventForm(request):
+    if request.method == 'POST':
+        organizer = request.POST.get('Organizer')
+        category = request.POST.get('Category')
+        title = request.POST.get('Title')
+        description = request.POST.get('Description')
+        location = request.POST.get('Location')
+        dateTime = request.POST.get('DateTime')
+
+        organizer = Users.objects.get(UserID=organizer)
+        category = Category.objects.get(Name=category)
+
+        event = Event(OrganizerID=organizer, CategoryID=category, Title=title, Description=description, Location=location, DateTime=dateTime)
+        event.save()
+
+        return redirect("event-list")
+    else:
+        return HttpResponse("Only POST requests are allowed.", status=405)
 
 class list_event(ListView):
     model = Event
@@ -50,6 +89,7 @@ class list_event(ListView):
     context_object_name = 'events'
     paginate = 20
 
+<<<<<<< HEAD
 
 class create_reg(CreateView):
     model = Registration
@@ -59,20 +99,49 @@ class create_reg(CreateView):
         ]
     template_name = 'create_registration.html'
     success_url = reverse_lazy('registration/list')
+=======
+def create_reg(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registration-list')  
+    else:
+        form = RegistrationForm(request)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        # Fetch Users and Events and add them to the context
-        context['Users'] = Users.objects.all()
-        context['Events'] = Event.objects.all()
-        
-        return context
-    
+    # Fetch Users and Events for the context
+    users = Users.objects.all()
+    events = Event.objects.all()
+
+    # Pass data to the template
+    context = {
+        'form': form,
+        'Users': users,
+        'Events': events,
+    }
+
+    return render(request, 'create_registration.html', context)
+>>>>>>> 10d5e3cea5bcf75c9eab569d65f5a56076a4d11c
+
 class list_reg(ListView):
     model = Registration
     template_name = 'registration_list.html'
     context_object_name = 'registrations'
     paginate = 20  
-    
+@csrf_exempt
+def RegistrationForm(request):
+    if request.method == 'POST':
+        eventID = request.POST.get('Event')
+        userID = request.POST.get('User')
+
+        event = Event.objects.get(EventID=eventID)
+        user = Users.objects.get(UserID=userID)
+        
+        registration = Registration(UserID=user, EventID=event)
+        registration.save()
+
+        return redirect("registration-list")
+    else:
+        return HttpResponse("Only POST requests are allowed.", status=405)
+
 # (creating list and create views for event, getting HTTP error for both of them)
