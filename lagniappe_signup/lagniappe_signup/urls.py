@@ -25,6 +25,8 @@ urlpatterns = [
     path('', views.homepage,name='home'),
     path('about/', views.about),
     path('signin/',views.signin,name='signin'),
+    path('signup/', views.signup, name='signup'),
+    path('signup/SignUpForm', views.signupform, name="sign-up-form"),
     path('event/create', views.create_event, name="event-create"),
     path('event/list', views.list_event.as_view(), name="event-list"),
     path('registration/create', views.create_reg, name="registration-create"),
@@ -32,4 +34,5 @@ urlpatterns = [
     path('registration/RegistrationForm/', views.RegistrationForm, name="registration-form"),
     path('event/event-list/', views.eventForm, name="event-form"),
     path('map/', views.eventMap,name='map'),
+    path('feedback/create', views.create_feedback,name='feedback-create'),
 ]
