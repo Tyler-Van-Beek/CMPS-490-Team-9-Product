@@ -6,6 +6,7 @@ from .forms import EventForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     return render(request,'home.html')
@@ -19,6 +20,7 @@ def signin(request):
 def eventMap(request):
     return render(request,'eventMap.html')
 
+@login_required
 class create_event(CreateView):
     model = Event
     fields = [
@@ -47,6 +49,7 @@ class list_event(ListView):
     template_name = 'event_list.html'
     context_object_name = 'events'
     paginate = 20
+
 
 class create_reg(CreateView):
     model = Registration
