@@ -6,13 +6,10 @@ from .forms import EventForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
-<<<<<<< HEAD
-from django.contrib.auth.decorators import login_required
-=======
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
->>>>>>> 10d5e3cea5bcf75c9eab569d65f5a56076a4d11c
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     return render(request,'home.html')
@@ -34,26 +31,9 @@ def create_event(request):
     else:
         form = EventForm(request)
 
-<<<<<<< HEAD
-@login_required
-class create_event(CreateView):
-    model = Event
-    fields = [
-            'OrganizerID',
-            'CategoryID',
-            'Title',
-            'Description',
-            'Location',
-            'DateTime',
-            'EventStatus',
-        ]
-    template_name = 'create_event.html'
-    success_url = reverse_lazy('event/list')
-=======
     # Fetch Users and Events for the context
     users = Users.objects.all()
     category = Category.objects.all()
->>>>>>> 10d5e3cea5bcf75c9eab569d65f5a56076a4d11c
 
     # Pass data to the template
     context = {
@@ -89,17 +69,6 @@ class list_event(ListView):
     context_object_name = 'events'
     paginate = 20
 
-<<<<<<< HEAD
-
-class create_reg(CreateView):
-    model = Registration
-    fields = [
-            'UserID',
-            'EventID',
-        ]
-    template_name = 'create_registration.html'
-    success_url = reverse_lazy('registration/list')
-=======
 def create_reg(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -121,7 +90,6 @@ def create_reg(request):
     }
 
     return render(request, 'create_registration.html', context)
->>>>>>> 10d5e3cea5bcf75c9eab569d65f5a56076a4d11c
 
 class list_reg(ListView):
     model = Registration
