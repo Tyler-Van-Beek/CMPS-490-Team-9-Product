@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
-from .forms import EventForm
+from .forms import EventForm, SignUpForm, FeedbackForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
@@ -117,5 +117,42 @@ def RegistrationForm(request):
         return redirect("registration-list")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
+    
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registration-list')  
+    else:
+        form = SignUpForm(request)
+
+    return render(request, 'create_user.html')
+
+def signupform(request):
+    if request.method == 'POST':
+        firstname = request.POST.get('first_name')
+        lastname = request.POST.get('last_name')
+        Username = request.POST.get('username')
+        Email = request.POST.get('email')
+        Password = request.POST.get('password')
+
+        user = Users(first_name=firstname, last_name=lastname, username=Username, email=Email, password=Password)
+        user.save()
+
+        return redirect("home")
+    else:
+        return HttpResponse("Only POST requests are allowed.", status=405)
+
+def create_feedback(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registration-list')  
+    else:
+        form = FeedbackForm(request)
+
+    return request(request, 'create_feedback.html', {'form': form})
 
 # (creating list and create views for event, getting HTTP error for both of them)
