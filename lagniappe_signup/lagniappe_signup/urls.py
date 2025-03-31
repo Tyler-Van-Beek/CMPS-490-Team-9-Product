@@ -35,4 +35,5 @@ urlpatterns = [
     path('event/event-list/', views.eventForm, name="event-form"),
     path('map/', views.eventMap,name='map'),
     path('feedback/create', views.create_feedback,name='feedback-create'),
+    path('feedback/list/', views.list_feedback.as_view(), name="feedback-list"),
 ]
