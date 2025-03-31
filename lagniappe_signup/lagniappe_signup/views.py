@@ -166,4 +166,25 @@ def create_feedback(request):
 
     return render(request, 'create_feedback.html', context)
 
+def feedback_form(request):
+    if request.method == "POST":
+        user = request.POST.get('User')
+        event = request.POST.get('Event')
+        rating = request.POST.get('rating')
+        comments = request.post.get('comments')
+
+        event = Event.objects.get(EventID=user)
+        user = Users.objects.get(UserID=event)
+
+        feedback = Feedback(UserID=user, EventID=event, Rating=rating, Comments=comments)
+        feedback.save()
+        
+    else:
+        return HttpResponse("Only POST requests are allowed.", status=405)
+class list_feedback(ListView):
+    model = Feedback
+    template_name = 'feedback_list.html'
+    context_object_name = 'feedback'
+    paginate = 20  
+
 # (creating list and create views for event, getting HTTP error for both of them)
