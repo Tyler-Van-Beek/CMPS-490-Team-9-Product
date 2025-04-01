@@ -171,16 +171,18 @@ def feedback_form(request):
         user = request.POST.get('User')
         event = request.POST.get('Event')
         rating = request.POST.get('rating')
-        comments = request.post.get('comments')
+        comments = request.POST.get('comments')
 
-        event = Event.objects.get(EventID=user)
-        user = Users.objects.get(UserID=event)
+        event = Event.objects.get(EventID=event)
+        user = Users.objects.get(UserID=user)
 
         feedback = Feedback(UserID=user, EventID=event, Rating=rating, Comments=comments)
         feedback.save()
         
+        return redirect("feedback-list")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
+    
 class list_feedback(ListView):
     model = Feedback
     template_name = 'feedback_list.html'
