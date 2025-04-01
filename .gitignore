@@ -2,3 +2,5 @@ openAI_APIkey
 pinecone_APIkey
 lagniappe_signup\lagniappe_signup\__pycache__
 *.pyc
+__pycache__/
+*.py[cod]
