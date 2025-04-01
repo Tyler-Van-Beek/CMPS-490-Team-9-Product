@@ -36,4 +36,5 @@ urlpatterns = [
     path('map/', views.eventMap,name='map'),
     path('feedback/create', views.create_feedback,name='feedback-create'),
     path('feedback/list/', views.list_feedback.as_view(), name="feedback-list"),
+    path('feedback/FeedbackForm/', views.feedback_form, name='feedback-form')
 ]
