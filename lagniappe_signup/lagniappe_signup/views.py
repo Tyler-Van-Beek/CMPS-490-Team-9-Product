@@ -189,4 +189,11 @@ class list_feedback(ListView):
     context_object_name = 'feedback'
     paginate = 20  
 
+def detail_event(request, pk):
+    try:
+        event = Event.objects.get(EventID=pk)
+    except Event.DoesNotExist:
+        raise HttpResponse('Event Does Not Exist', status=404)
+    
+    return render(request, 'event_detail.html', context={'event': event})
 # (creating list and create views for event, getting HTTP error for both of them)

@@ -31,6 +31,7 @@ urlpatterns = [
     path('registration/list', views.list_reg.as_view(), name="registration-list"),
     path('registration/RegistrationForm/', views.RegistrationForm, name="registration-form"),
     path('event/event-list/', views.eventForm, name="event-form"),
+    path('event/<int:pk>', views.detail_event, name="event-detail"),
     path('map/', views.eventMap,name='map'),
     path('faq/', views.faq, name='faq'),
     path('signup/', views.signup, name='signup')
