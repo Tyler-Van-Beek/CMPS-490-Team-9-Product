@@ -33,4 +33,5 @@ urlpatterns = [
     path('event/event-list/', views.eventForm, name="event-form"),
     path('map/', views.eventMap,name='map'),
     path('faq/', views.faq, name='faq'),
+    path('signup/', views.signup, name='signup')
 ]
