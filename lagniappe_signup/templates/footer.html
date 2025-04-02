@@ -1,0 +1,27 @@
+<!-- footer.html -->
+<style>
+    .footer-container {
+        background-color: #3a3a3a;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-container a {
+        margin: 0 15px;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s ease;
+    }
+
+    .footer-container a:hover {
+        color: #1e90ff; /* Dodger Blue */
+    }
+</style>
+
+<div class="footer-container">
+    <a href="{% url 'faq' %}">FAQ</a>
+    <a href="{% url 'about' %}">About Us</a>
+</div>
