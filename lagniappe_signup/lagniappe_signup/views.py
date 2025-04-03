@@ -22,6 +22,8 @@ def signin(request):
 
 def eventMap(request):
     return render(request,'eventMap.html')
+
+@login_required
 def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
