@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     return render(request,'home.html')
@@ -25,6 +26,8 @@ def signin(request):
 
 def eventMap(request):
     return render(request,'eventMap.html')
+
+@login_required
 def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
