@@ -132,3 +132,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+#This tells users where to send a user when they are not logged in
+LOGIN_URL = '/signin/'
