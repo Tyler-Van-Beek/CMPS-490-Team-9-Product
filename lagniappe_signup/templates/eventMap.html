@@ -1,5 +1,8 @@
+{% extends "headBanner.html" %}
+{% load static %}
 <!DOCTYPE html>
 <html>
+  {% block content %}
   <head>
     <title>Lagniappe Signup</title>
     <!-- The callback parameter is required, so we use console.debug as a noop -->
@@ -9,7 +12,7 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       gmp-map {
-        height: 100%;
+        height: 87.75%;
         position: fixed;
         bottom: 0;
       }
@@ -17,15 +20,15 @@
       /* Optional: Makes the sample page fill the window. */
       html,
       body {
-        height: 100%;
+        height: 50%;
         margin: 0;
         padding: 0;
       }
     </style>
   </head>
-  <body>
+  
     <gmp-map center="30.2241, -92.0198" zoom="10" map-id="DEMO_MAP_ID">
       <gmp-advanced-marker position="30.2241, -92.0198" title="My location"></gmp-advanced-marker>
     </gmp-map>
-  </body>
+  {% endblock %}
 </html>
