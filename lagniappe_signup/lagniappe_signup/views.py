@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
 from .forms import EventForm, SignUpForm, FeedbackForm
@@ -156,13 +156,13 @@ def create_feedback(request):
 
     # Fetch Users and Events for the context
     users = Users.objects.all()
-    events = Event.objects.all()
+    category = Category.objects.all()
 
     # Pass data to the template
     context = {
         'form': form,
         'Users': users,
-        'Events': events,
+        'Category': category,
     }
 
     return render(request, 'create_feedback.html', context)
@@ -197,5 +197,36 @@ def detail_event(request, pk):
         raise HttpResponse('Event Does Not Exist', status=404)
     
     return render(request, 'event_detail.html', context={'event': event})
+
+class update_event(UpdateView):
+    model = Event
+    fields = ["OrganizerID", "CategoryID", "Title", "Location", "DateTime", "EventStatus"]
+    template_name = "event_update.html"
+    context_object_name = 'event'
+
+    def get_context_data(self, **kwargs):
+        users = Users.objects.all()
+        category = Category.objects.all()
+
+        context = {
+            'Users': users,
+            'Category': category,
+        }
+
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('event-list')
+    
+    def get_initial(self):
+        initial = super().get_initial()
+
+        event = self.get_object()
+        initial['Title'] = event.Title
+        initial['Description'] = event.Description
+        initial['Location'] = event.Location
+        initial['DateTime'] = event.DateTime
+
+        return initial
 
 # (creating list and create views for event, getting HTTP error for both of them)

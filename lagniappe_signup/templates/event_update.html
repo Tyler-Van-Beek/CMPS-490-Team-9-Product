@@ -1,0 +1,76 @@
+{% extends "headBanner.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Your Event</h1>
+
+        <a><strong>{{ event.Title }}</strong></a>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="OrganizerID">Organizer</label>
+                <select id="OrganizerID" name="Organizer" required>
+                    <!-- Populate with available organizers (users) -->
+                    {% for user in Users %}
+                    <option value="{{ user.UserID }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="CategoryID">Category</label>
+                <select id="CategoryID" name="Category" required>
+                    <!-- Populate with available categories -->
+                    {% for c in Category %}
+                        <option value="{{ c.Name }}">{{ c.Name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Title">Event Title</label>
+                <input type="text" id="Title" name="Title" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="Description">Event Description</label>
+                <textarea id="Description" name="Description" required maxlength="500"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="Location">Event Location</label>
+                <input type="text" id="Location" name="Location" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="DateTime">Event Date and Time</label>
+                <input type="datetime-local" id="DateTime" name="DateTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="EventStatus">Event Status</label>
+                <input type="checkbox" id="EventStatus" name="EventStatus" checked>
+                <span>Event is Active</span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Create Event</button>
+            </div>
+        </form>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+</html>
+{% endblock %}

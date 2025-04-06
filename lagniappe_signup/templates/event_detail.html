@@ -19,9 +19,9 @@
     <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
     <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
 
-    <!-- You can add more fields here as needed -->
     <a href="{% url 'event-list' %}">Back to event list</a>
-
+    <a href="{% url 'event-update' event.EventID %}">Edit Event</a>
+    
     {% include "footer.html" %}
     
 </body>
