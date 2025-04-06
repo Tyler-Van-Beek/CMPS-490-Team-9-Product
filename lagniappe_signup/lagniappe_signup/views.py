@@ -102,6 +102,7 @@ class list_reg(ListView):
     template_name = 'registration_list.html'
     context_object_name = 'registrations'
     paginate = 20  
+
 @csrf_exempt
 def RegistrationForm(request):
     if request.method == 'POST':
@@ -196,4 +197,5 @@ def detail_event(request, pk):
         raise HttpResponse('Event Does Not Exist', status=404)
     
     return render(request, 'event_detail.html', context={'event': event})
+
 # (creating list and create views for event, getting HTTP error for both of them)
