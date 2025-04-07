@@ -42,7 +42,7 @@ def ensure_index(dimension=1536):
 def populate_index():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Event")
+    cursor.execute("SELECT * FROM Events")
     rows = cursor.fetchall()
 
     index = ensure_index()
