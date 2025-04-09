@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
@@ -27,7 +27,7 @@ def signin(request):
 def eventMap(request):
     return render(request,'eventMap.html')
 
-@login_required
+
 def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -198,35 +198,36 @@ def detail_event(request, pk):
     
     return render(request, 'event_detail.html', context={'event': event})
 
-class update_event(UpdateView):
-    model = Event
-    fields = ["OrganizerID", "CategoryID", "Title", "Location", "DateTime", "EventStatus"]
-    template_name = "event_update.html"
-    context_object_name = 'event'
-
-    def get_context_data(self, **kwargs):
-        users = Users.objects.all()
-        category = Category.objects.all()
-
-        context = {
-            'Users': users,
-            'Category': category,
-        }
-
-        return context
-
-    def get_success_url(self):
-        return reverse_lazy('event-list')
+def update_event(request, pk):
+    event = Event.objects.get(EventID=pk)
     
-    def get_initial(self):
-        initial = super().get_initial()
+    success_url = reverse_lazy('event-list')
 
-        event = self.get_object()
-        initial['Title'] = event.Title
-        initial['Description'] = event.Description
-        initial['Location'] = event.Location
-        initial['DateTime'] = event.DateTime
+    if request.method == "POST":
+        # Create form or handle form submission logic here
+        # If you're using a form, you can validate and save it like this:
+        form = EventForm(request.POST, instance=event)
+        
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy('event-list'), event.EventID)
+        else:
+            print(form.errors)
+    
+    else:
+        # If it's a GET request, prepopulate the form with event data
+        form = EventForm(instance=event)
 
-        return initial
+    # Fetch users and categories for context
+    users = Users.objects.all()
+    category = Category.objects.all()
 
-# (creating list and create views for event, getting HTTP error for both of them)
+    # Add the context for the template
+    context = {
+        'event': event,
+        'form': form,
+        'Users': users,
+        'Category': category,
+    }
+
+    return render(request, 'event_update.html', context)
