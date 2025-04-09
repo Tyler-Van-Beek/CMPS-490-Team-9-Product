@@ -21,6 +21,8 @@
 
     <a href="{% url 'event-list' %}">Back to event list</a>
     <a href="{% url 'event-update' event.EventID %}">Edit Event</a>
+    <a href="{% url 'registration-create' %}">Register</a>
+    <a href="{% url 'feedback-create' %}">Feedback</a>
     
     {% include "footer.html" %}
     
