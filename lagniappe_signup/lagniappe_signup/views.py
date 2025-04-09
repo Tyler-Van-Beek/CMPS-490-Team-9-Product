@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
 from .forms import EventForm, SignUpForm, FeedbackForm
@@ -9,18 +9,25 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     return render(request,'home.html')
 
 def about(request):
-    return HttpResponse("This is the about page")
+    return render(request, 'about.html')
+
+def faq(request):
+    return render(request, 'faq.html')
+
 
 def signin(request):
     return render(request,'signin.html')
 
 def eventMap(request):
     return render(request,'eventMap.html')
+
+
 def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -95,6 +102,7 @@ class list_reg(ListView):
     template_name = 'registration_list.html'
     context_object_name = 'registrations'
     paginate = 20  
+
 @csrf_exempt
 def RegistrationForm(request):
     if request.method == 'POST':
@@ -148,13 +156,13 @@ def create_feedback(request):
 
     # Fetch Users and Events for the context
     users = Users.objects.all()
-    events = Event.objects.all()
+    category = Category.objects.all()
 
     # Pass data to the template
     context = {
         'form': form,
         'Users': users,
-        'Events': events,
+        'Category': category,
     }
 
     return render(request, 'create_feedback.html', context)
@@ -164,20 +172,62 @@ def feedback_form(request):
         user = request.POST.get('User')
         event = request.POST.get('Event')
         rating = request.POST.get('rating')
-        comments = request.post.get('comments')
+        comments = request.POST.get('comments')
 
-        event = Event.objects.get(EventID=user)
-        user = Users.objects.get(UserID=event)
+        event = Event.objects.get(EventID=event)
+        user = Users.objects.get(UserID=user)
 
         feedback = Feedback(UserID=user, EventID=event, Rating=rating, Comments=comments)
         feedback.save()
         
+        return redirect("feedback-list")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
+    
 class list_feedback(ListView):
     model = Feedback
     template_name = 'feedback_list.html'
     context_object_name = 'feedback'
     paginate = 20  
 
-# (creating list and create views for event, getting HTTP error for both of them)
+def detail_event(request, pk):
+    try:
+        event = Event.objects.get(EventID=pk)
+    except Event.DoesNotExist:
+        raise HttpResponse('Event Does Not Exist', status=404)
+    
+    return render(request, 'event_detail.html', context={'event': event})
+
+def update_event(request, pk):
+    event = Event.objects.get(EventID=pk)
+    
+    success_url = reverse_lazy('event-list')
+
+    if request.method == "POST":
+        # Create form or handle form submission logic here
+        # If you're using a form, you can validate and save it like this:
+        form = EventForm(request.POST, instance=event)
+        
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy('event-list'), event.EventID)
+        else:
+            print(form.errors)
+    
+    else:
+        # If it's a GET request, prepopulate the form with event data
+        form = EventForm(instance=event)
+
+    # Fetch users and categories for context
+    users = Users.objects.all()
+    category = Category.objects.all()
+
+    # Add the context for the template
+    context = {
+        'event': event,
+        'form': form,
+        'Users': users,
+        'Category': category,
+    }
+
+    return render(request, 'event_update.html', context)

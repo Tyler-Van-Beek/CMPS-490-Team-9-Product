@@ -1,0 +1,29 @@
+{% extends "headBanner.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+    <h1>{{ event.Title }}</h1>
+
+    <p><strong>Description:</strong> {{ event.Description }}</p>
+    <p><strong>Location:</strong> {{ event.Location }}</p>
+    <p><strong>Date & Time:</strong> {{ event.DateTime }}</p>
+    
+    <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
+    <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
+
+    <a href="{% url 'event-list' %}">Back to event list</a>
+    <a href="{% url 'event-update' event.EventID %}">Edit Event</a>
+    
+    {% include "footer.html" %}
+    
+</body>
+</html>
+{% endblock %}

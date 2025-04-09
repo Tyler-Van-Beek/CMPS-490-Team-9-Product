@@ -23,17 +23,17 @@ from events.models import Users, Event, Category, Feedback, Registration
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.homepage,name='home'),
-    path('about/', views.about),
+    path('about/', views.about,name='about'),
     path('signin/',views.signin,name='signin'),
-    path('signup/', views.signup, name='signup'),
-    path('signup/SignUpForm', views.signupform, name="sign-up-form"),
     path('event/create', views.create_event, name="event-create"),
     path('event/list', views.list_event.as_view(), name="event-list"),
+    path('event/event-list/', views.eventForm, name="event-form"),
+    path('event/<int:pk>', views.detail_event, name="event-detail"),
+    path('event/update/<int:pk>', views.update_event, name="event-update"),
     path('registration/create', views.create_reg, name="registration-create"),
     path('registration/list', views.list_reg.as_view(), name="registration-list"),
     path('registration/RegistrationForm/', views.RegistrationForm, name="registration-form"),
-    path('event/event-list/', views.eventForm, name="event-form"),
     path('map/', views.eventMap,name='map'),
-    path('feedback/create', views.create_feedback,name='feedback-create'),
-    path('feedback/list/', views.list_feedback.as_view(), name="feedback-list"),
+    path('faq/', views.faq, name='faq'),
+    path('signup/', views.signup, name='signup')
 ]
