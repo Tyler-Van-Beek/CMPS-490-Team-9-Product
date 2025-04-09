@@ -156,13 +156,13 @@ def create_feedback(request):
 
     # Fetch Users and Events for the context
     users = Users.objects.all()
-    category = Category.objects.all()
+    event = Event.objects.all()
 
     # Pass data to the template
     context = {
         'form': form,
         'Users': users,
-        'Category': category,
+        'Events': event,
     }
 
     return render(request, 'create_feedback.html', context)
@@ -231,3 +231,17 @@ def update_event(request, pk):
     }
 
     return render(request, 'event_update.html', context)
+
+def detail_user(request, pk):
+    try:
+        user = Users.objects.get(UserID=pk)
+    except Event.DoesNotExist:
+        raise HttpResponse('User Does Not Exist', status=404)
+    
+    return render(request, 'user_detail.html', context={'User': user})
+
+class list_users(ListView):
+    model = Users
+    template_name = 'user_list.html'
+    context_object_name = 'User'
+    paginate = 20  
