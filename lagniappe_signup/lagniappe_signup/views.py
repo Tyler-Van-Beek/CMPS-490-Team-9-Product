@@ -156,13 +156,13 @@ def create_feedback(request):
 
     # Fetch Users and Events for the context
     users = Users.objects.all()
-    category = Category.objects.all()
+    event = Event.objects.all()
 
     # Pass data to the template
     context = {
         'form': form,
         'Users': users,
-        'Category': category,
+        'Event': event,
     }
 
     return render(request, 'create_feedback.html', context)
@@ -231,3 +231,4 @@ def update_event(request, pk):
     }
 
     return render(request, 'event_update.html', context)
+
