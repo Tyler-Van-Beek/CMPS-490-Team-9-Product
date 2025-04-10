@@ -3,15 +3,15 @@
 {% block content %}
   <h1>User List</h1>
   
-  {% if user %}
+  {% if User %}
     <ul>
-      {% for user in user %}
+      {% for us in User %}
         <li>
-          <a href="{% url 'user-detail' user.UserID %}">{{ user.username }}</a>
-          <p><strong>User ID:</strong> {{ user.UserID }}</p>
-          <p><strong>First Name:</strong> {{ user.first_name }}</p>
-          <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-          <p><strong>Username:</strong> {{ user.username }}</p>
+          <a href="{% url 'user-detail' us.UserID %}">{{ us.username }}</a>
+          <p><strong>User ID:</strong> {{ us.UserID }}</p>
+          <p><strong>First Name:</strong> {{ us.first_name }}</p>
+          <p><strong>Last Name:</strong> {{ us.last_name }}</p>
+          <p><strong>Username:</strong> {{ us.username }}</p>
         </li>
       {% endfor %}
     </ul>

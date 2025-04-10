@@ -19,10 +19,10 @@
     <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
     <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
 
-    <a href="{% url 'event-list' %}">Back to event list</a>
-    <a href="{% url 'event-update' event.EventID %}">Edit Event</a>
-    <a href="{% url 'registration-create' %}">Register</a>
-    <a href="{% url 'feedback-create' %}">Feedback</a>
+    <button onclick="window.location.href='{% url 'event-list' %}'" class="btn btn-secondary">Back to event list</button>
+    <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary">Edit Event</button>
+    <button onclick="window.location.href='{% url 'registration-create' %}'" class="btn btn-success">Register</button>
+    <button onclick="window.location.href='{% url 'feedback-create' %}'" class="btn btn-info">Feedback</button>
     
     {% include "footer.html" %}
     
