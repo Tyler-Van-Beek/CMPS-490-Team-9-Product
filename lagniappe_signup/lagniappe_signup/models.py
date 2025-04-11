@@ -33,7 +33,7 @@ class Event(models.Model):
     EventStatus = models.BooleanField(("eventstatus"), default=True)
 
 class Feedback(models.Model):
-    EventID = models.AutoField(("feedbackID"), primary_key=True)
+    FeedbackID = models.AutoField(("feedbackID"), primary_key=True)
     UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
     EventID = models.ForeignKey(Event, on_delete=models.CASCADE)
     Rating = models.IntegerField(("rating"), default=1, validators=[MaxValueValidator(5)])
@@ -46,3 +46,5 @@ class Registration(models.Model):
     EventID = models.ForeignKey(Event, on_delete=models.CASCADE)
     RegistrationStatus = models.BooleanField(("registrationstatus"), default=True)
     RegistrationDate = models.DateTimeField(("registrationdate"), auto_now_add=True)
+
+    
