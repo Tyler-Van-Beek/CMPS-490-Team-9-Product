@@ -12,17 +12,19 @@
 <body>
     <h1>{{ event.Title }}</h1>
 
-    <p><strong>Description:</strong> {{ event.Description }}</p>
+    
     <p><strong>Location:</strong> {{ event.Location }}</p>
     <p><strong>Date & Time:</strong> {{ event.DateTime }}</p>
     
-    <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
     <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
+    <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
+    <p><strong>Description:</strong> {{ event.Description }}</p>
 
     <button onclick="window.location.href='{% url 'event-list' %}'" class="btn btn-secondary">Back to event list</button>
     <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary">Edit Event</button>
     <button onclick="window.location.href='{% url 'registration-create' %}'" class="btn btn-success">Register</button>
     <button onclick="window.location.href='{% url 'feedback-create' %}'" class="btn btn-info">Feedback</button>
+    <button onclick="window.location.href='{% url 'event-registrations' event.EventID%}'" class="btn btn-info">View Registrations</button>
     
     {% include "footer.html" %}
     

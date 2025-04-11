@@ -200,8 +200,6 @@ def detail_event(request, pk):
 
 def update_event(request, pk):
     event = Event.objects.get(EventID=pk)
-    
-    success_url = reverse_lazy('event-list')
 
     if request.method == "POST":
         # Create form or handle form submission logic here
@@ -245,3 +243,12 @@ class list_users(ListView):
     template_name = 'user_list.html'
     context_object_name = 'User'
     paginate = 20  
+
+def event_registrations(request,pk):
+    try:
+        event = Event.objects.get(EventID=pk)
+        reg = Registration.objects.filter(EventID=event)
+    except Event.DoesNotExist or Registration.DoesNotExist:
+        raise HttpResponse('Event or Registration Does Not Exist', status=404)
+
+    return render(request, 'event_registrations.html', context={'Registrations': reg})
