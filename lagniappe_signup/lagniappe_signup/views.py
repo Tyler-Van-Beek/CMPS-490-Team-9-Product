@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login,logout,authenticate
+
 
 def homepage(request):
     return render(request,'home.html')
@@ -22,6 +24,19 @@ def faq(request):
 
 
 def signin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        sign = authenticate(request, username=username, password=password)
+        print("Authenticated user:", sign)
+        print("Submitted username:", username)
+        print("Submitted password:", password)
+
+        
+        if sign is not None:
+            login(request, sign)
+            return redirect('home')
     return render(request,'signin.html')
 
 def eventMap(request):
