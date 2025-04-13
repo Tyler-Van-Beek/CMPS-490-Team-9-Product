@@ -2,6 +2,8 @@
 
 
 {% block content %}
+  <button onclick="window.location.href='{% url 'event-create' %}'" class="btn btn-info">Create an Event</button>
+
   <h1>Event List</h1>
   
   {% if events %}
@@ -19,7 +21,7 @@
       {% endfor %}
     </ul>
 
-    <!-- Pagination links (if enabled) -->
+    <!-- Pagination links -->
     <div>
       {% if is_paginated %}
         <span class="step-links">

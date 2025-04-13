@@ -10,6 +10,8 @@
     <link rel="stylesheet" href='css/style.css'>
 </head>
 <body>
+    
+    <button onclick="window.location.href='{% url 'event-list' %}'" class="btn btn-secondary">Back</button>
     <h1>{{ event.Title }}</h1>
 
     
@@ -20,7 +22,6 @@
     <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
     <p><strong>Description:</strong> {{ event.Description }}</p>
 
-    <button onclick="window.location.href='{% url 'event-list' %}'" class="btn btn-secondary">Back to event list</button>
     <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary">Edit Event</button>
     <button onclick="window.location.href='{% url 'registration-create' %}'" class="btn btn-success">Register</button>
     <button onclick="window.location.href='{% url 'feedback-create' %}'" class="btn btn-info">Feedback</button>
