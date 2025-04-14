@@ -25,25 +25,12 @@ def faq(request):
 
 
 def signin(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        sign = authenticate(username=username, password=password)
-        print("Authenticated user:", sign)
-        print("Submitted username:", username)
-        print("Submitted password:", password)
-
-        
-        if sign is not None:
-            login(request, sign)
-            return redirect('home')
     return render(request,'signin.html')
 
 def eventMap(request):
     return render(request,'eventMap.html')
 
-@login_required
+
 def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -65,7 +52,6 @@ def create_event(request):
     }
 
     return render(request, 'create_event.html', context)
-
 
 def eventForm(request):
     if request.method == 'POST':
