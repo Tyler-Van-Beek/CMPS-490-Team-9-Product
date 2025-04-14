@@ -12,9 +12,9 @@
 <body>
     
     <div class="container">
-        <h1>Register for an Event</h1>
+        <h1>Give Feedback for an Event</h1>
 
-        <form action="RegistrationForm/" method="POST">
+        <form action="FeedbackForm/" method="POST">
             {% csrf_token %}
             
             <div class="form-group">
@@ -35,6 +35,22 @@
                         <option value="{{ events.EventID }}">{{ events.Title }}</option>
                     {% endfor %}
                 </select>
+            </div>
+
+            <div class-"form-group">
+                <label for="Rating"> Rating </label>
+                <select id="Rating" name="rating" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Comments">Comments</label>
+                <textarea id="Comments" name="comments" required maxlength="500"></textarea>
             </div>
 
             <div class="form-group">

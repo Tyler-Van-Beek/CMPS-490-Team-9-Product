@@ -10,26 +10,27 @@
     <link rel="stylesheet" href='css/style.css'>
 </head>
 <body>
-    
     <div class="container">
-        <h1>Create New Event</h1>
+        <h1>Edit Your Event</h1>
 
-        <form action="/create_event/" method="POST">
+        <a><strong>{{ event.Title }}</strong></a>
+
+        <form method="POST">
             {% csrf_token %}
             
             <div class="form-group">
                 <label for="OrganizerID">Organizer</label>
-                <select id="OrganizerID" name="OrganizerID" required>
+                <select id="OrganizerID" name="Organizer" required>
                     <!-- Populate with available organizers (users) -->
                     {% for user in Users %}
-                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    <option value="{{ user.UserID }}">{{ user.first_name }} {{ user.last_name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="CategoryID">Category</label>
-                <select id="CategoryID" name="CategoryID" required>
+                <select id="CategoryID" name="Category" required>
                     <!-- Populate with available categories -->
                     {% for c in Category %}
                         <option value="{{ c.Name }}">{{ c.Name }}</option>
@@ -64,10 +65,11 @@
             </div>
 
             <div class="form-group">
-                <button type="submit">Create Event</button>
+                <button type="submit">Update Event</button>
             </div>
         </form>
     </div>
+
     {% include "footer.html" %}
 </body>
 </html>

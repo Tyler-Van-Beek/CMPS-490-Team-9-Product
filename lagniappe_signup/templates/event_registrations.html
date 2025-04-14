@@ -2,11 +2,11 @@
 
 
 {% block content %}
-  <h1>Registrations</h1>
+  <h1>Registrations for {{ Event.Title }}</h1>
   
-  {% if registrations %}
+  {% if Registrations %}
     <ul>
-      {% for r in registrations %}
+      {% for r in Registrations %}
         <li>
           <h2>{{ r.RegistrationID }}</h2>
           <p><strong>Registered User:</strong> {{ r.UserID }}</p>
@@ -38,7 +38,7 @@
     </div>
 
   {% else %}
-    <p>No registrations registered.</p>
+    <p>No users registered.</p>
   {% endif %}
   {% include "footer.html" %}
 {% endblock %}
