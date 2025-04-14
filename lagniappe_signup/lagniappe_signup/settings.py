@@ -136,3 +136,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 #This tells users where to send a user when they are not logged in
 LOGIN_URL = '/signin/'
+
+# AUTH_USER_MODEL = 'events.Users'

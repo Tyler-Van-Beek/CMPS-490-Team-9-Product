@@ -28,7 +28,7 @@ def signin(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        sign = authenticate(request, username=username, password=password)
+        sign = authenticate(username=username, password=password)
         print("Authenticated user:", sign)
         print("Submitted username:", username)
         print("Submitted password:", password)
