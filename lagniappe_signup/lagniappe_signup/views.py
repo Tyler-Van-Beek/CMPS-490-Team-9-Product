@@ -251,4 +251,7 @@ def event_registrations(request,pk):
     except Event.DoesNotExist or Registration.DoesNotExist:
         raise HttpResponse('Event or Registration Does Not Exist', status=404)
 
-    return render(request, 'event_registrations.html', context={'Registrations': reg})
+    return render(request, 'event_registrations.html', context={
+        'Registrations': reg, 
+        'Event': event
+    })
