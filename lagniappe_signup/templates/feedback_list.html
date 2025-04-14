@@ -2,16 +2,17 @@
 
 
 {% block content %}
-  <h1>Registrations</h1>
+  <h1>Feedback List</h1>
   
-  {% if registrations %}
+  {% if feedback %}
     <ul>
-      {% for r in registrations %}
+      {% for f in feedback %}
         <li>
-          <h2>{{ r.RegistrationID }}</h2>
-          <p><strong>Registered User:</strong> {{ r.UserID }}</p>
-          <p><strong>For Event:</strong> {{ r.EventID }}</p>
-          <p><strong>Registration Status:</strong> {% if r.RegistrationStatus %}Active{% else %}Inactive{% endif %}</p>
+          <h1>{{ f.FeedbackID }}</h1>
+          <p><strong>Event:</strong> {{ f.EventID }}</p>
+          <p><strong>User:</strong> {{ f.UserID }}</p>
+          <p><strong>Rating:</strong> {{ f.Rating }}</p>
+          <p>{{ f.Comments }}</p>
         </li>
       {% endfor %}
     </ul>
@@ -38,7 +39,7 @@
     </div>
 
   {% else %}
-    <p>No registrations registered.</p>
+    <p>No events available.</p>
   {% endif %}
   {% include "footer.html" %}
 {% endblock %}
