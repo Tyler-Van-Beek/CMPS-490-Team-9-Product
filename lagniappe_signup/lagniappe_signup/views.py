@@ -211,7 +211,7 @@ def update_event(request, pk):
         
         if form.is_valid():
             form.save()
-            return redirect(reverse_lazy('event-list'), event.EventID)
+            return redirect(reverse_lazy('event-list'))
         else:
             print(form.errors)
     
