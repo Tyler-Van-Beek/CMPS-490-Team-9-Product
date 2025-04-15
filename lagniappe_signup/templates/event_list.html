@@ -7,7 +7,7 @@
   <h1>Event List</h1>
   
   {% if events %}
-    <ul>
+    <ul style="list-style-type: none; padding-left: 0;">
       {% for event in events %}
         <li>
           <a href="{% url 'event-detail' event.EventID %}">{{ event.Title }}</a>

@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
 from .forms import EventForm, SignUpForm, FeedbackForm
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
@@ -254,8 +254,10 @@ def event_registrations(request,pk):
     except Event.DoesNotExist or Registration.DoesNotExist:
         raise HttpResponse('Event or Registration Does Not Exist', status=404)
 
-    return render(request, 'event_registrations.html', context={'Registrations': reg})
-
+    return render(request, 'event_registrations.html', context={
+        'Registrations': reg, 
+        'Event': event
+    })
 @csrf_exempt
 def chat_response(request):
     if request.method == 'POST':
@@ -263,3 +265,12 @@ def chat_response(request):
         reply = get_recommendation(msg)  # Replace this with smarter logic
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def event_delete(request, pk):
+    eve = get_object_or_404(Event, EventID=pk)
+    if request.method == "POST":
+        eve.delete()
+        success_url = reverse_lazy('event-list')
+        return redirect(success_url)
+    
+    return render(request, 'event_delete.html', context={'event': eve})

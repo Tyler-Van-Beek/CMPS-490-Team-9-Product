@@ -10,6 +10,7 @@
     <link rel="stylesheet" href='css/style.css'>
 </head>
 <body>
+{% if user %}
     <div class="container">
         <h1>Edit Your Event</h1>
 
@@ -67,10 +68,12 @@
             <div class="form-group">
                 <button type="submit">Update Event</button>
             </div>
+            
         </form>
     </div>
 
-    {% include "footer.html" %}
+{% endif %}
+{% include "footer.html" %}
 </body>
 </html>
 {% endblock %}
