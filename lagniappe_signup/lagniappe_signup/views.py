@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse
 from events.models import Users, Event, Category, Feedback, Registration
 from .forms import EventForm, SignUpForm, FeedbackForm
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
@@ -255,3 +255,12 @@ def event_registrations(request,pk):
         'Registrations': reg, 
         'Event': event
     })
+
+def event_delete(request, pk):
+    eve = get_object_or_404(Event, EventID=pk)
+    if request.method == "POST":
+        eve.delete()
+        success_url = reverse_lazy('event-list')
+        return redirect(success_url)
+    
+    return render(request, 'event_delete.html', context={'event': eve})
