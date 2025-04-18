@@ -109,7 +109,7 @@ def create_reg(request, pk):
     context = {
         "form": form,
         "Users": users,
-        "Events": events,
+        "event": Event.objects.get(EventID=pk)
     }
 
     return render(request, "create_registration.html", context)
@@ -173,7 +173,7 @@ def signupform(request):
         return HttpResponse("Only POST requests are allowed.", status=405)
 
 
-def create_feedback(request):
+def create_feedback(request, pk):
     if request.method == "POST":
         form = FeedbackForm(request.POST)
         if form.is_valid():
@@ -184,13 +184,12 @@ def create_feedback(request):
 
     # Fetch Users and Events for the context
     users = Users.objects.all()
-    event = Event.objects.all()
 
     # Pass data to the template
     context = {
         "form": form,
         "Users": users,
-        "Events": event,
+        "event": Event.objects.get(EventID=pk)
     }
 
     return render(request, "create_feedback.html", context)
