@@ -12,7 +12,7 @@
 <body>
     
     <div class="container">
-        <h1>Give Feedback for an Event</h1>
+        <h1>Give Feedback for {{ event.Title }}</h1>
 
         <form action="FeedbackForm/" method="POST">
             {% csrf_token %}
@@ -27,15 +27,7 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="EventID">Event</label>
-                <select id="EventID" name="Event" required>
-                    <!-- Populate with available categories -->
-                    {% for events in Events %}
-                        <option value="{{ events.EventID }}">{{ events.Title }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <input type="hidden" name="Event" value="{{ event.EventID }}">
 
             <div class-"form-group">
                 <label for="Rating"> Rating </label>
@@ -54,7 +46,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit">Register</button>
+                <button type="submit">Submit</button>
             </div>
         </form> 
         
