@@ -6,6 +6,14 @@ from django.core.validators import MaxValueValidator
 class Users(AbstractUser): # AbstractUser comes with a whole bunch of attributes
     UserID = models.AutoField(("userID"), primary_key=True) # autofield automatically increments an int as a new row is created
 
+    # email
+
+    # password
+
+    # first_name
+
+    # last_name
+
     # required attributes for AbstractUser. I Set them to blank so they don't get in the way.
     groups = models.ManyToManyField(
         'auth.Group',
