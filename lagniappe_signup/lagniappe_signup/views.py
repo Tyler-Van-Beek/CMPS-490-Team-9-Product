@@ -11,29 +11,33 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
+
 def homepage(request):
-    return render(request,'home.html')
+    return render(request, "home.html")
+
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, "about.html")
+
 
 def faq(request):
-    return render(request, 'faq.html')
+    return render(request, "faq.html")
 
 
 def signin(request):
-    return render(request,'signin.html')
+    return render(request, "signin.html")
+
 
 def eventMap(request):
-    return render(request,'eventMap.html')
+    return render(request, "eventMap.html")
 
 
 def create_event(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('event-list')  
+            return redirect("event-list")
     else:
         form = EventForm(request)
 
@@ -43,46 +47,57 @@ def create_event(request):
 
     # Pass data to the template
     context = {
-        'form': form,
-        'Users': users,
-        'Category': category,
+        "form": form,
+        "Users": users,
+        "Category": category,
     }
 
-    return render(request, 'create_event.html', context)
+    return render(request, "create_event.html", context)
+
 
 def eventForm(request):
-    if request.method == 'POST':
-        organizer = request.POST.get('Organizer')
-        category = request.POST.get('Category')
-        title = request.POST.get('Title')
-        description = request.POST.get('Description')
-        location = request.POST.get('Location')
-        dateTime = request.POST.get('DateTime')
+    if request.method == "POST":
+        organizer = request.POST.get("Organizer")
+        category = request.POST.get("Category")
+        title = request.POST.get("Title")
+        description = request.POST.get("Description")
+        location = request.POST.get("Location")
+        dateTime = request.POST.get("DateTime")
 
         organizer = Users.objects.get(UserID=organizer)
         category = Category.objects.get(Name=category)
 
-        event = Event(OrganizerID=organizer, CategoryID=category, Title=title, Description=description, Location=location, DateTime=dateTime)
+        event = Event(
+            OrganizerID=organizer,
+            CategoryID=category,
+            Title=title,
+            Description=description,
+            Location=location,
+            DateTime=dateTime,
+        )
         event.save()
 
         return redirect("event-list")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
 
+
 class list_event(ListView):
     model = Event
-    template_name = 'event_list.html'
-    context_object_name = 'events'
+    template_name = "event_list.html"
+    context_object_name = "events"
     paginate = 20
 
-def create_reg(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+
+def create_reg(request, pk):
+    event_id = pk
+    if request.method == "POST":
+        form = RegForm(request.POST, event_id)
         if form.is_valid():
             form.save()
-            return redirect('registration-list')  
+            return redirect("registration-list")
     else:
-        form = RegistrationForm(request)
+        form = RegForm(request, pk)
 
     # Fetch Users and Events for the context
     users = Users.objects.all()
@@ -90,67 +105,77 @@ def create_reg(request):
 
     # Pass data to the template
     context = {
-        'form': form,
-        'Users': users,
-        'Events': events,
+        "form": form,
+        "Users": users,
+        "Events": events,
     }
 
-    return render(request, 'create_registration.html', context)
+    return render(request, "create_registration.html", context)
+
 
 class list_reg(ListView):
     model = Registration
-    template_name = 'registration_list.html'
-    context_object_name = 'registrations'
-    paginate = 20  
+    template_name = "registration_list.html"
+    context_object_name = "registrations"
+    paginate = 20
+
 
 @csrf_exempt
-def RegistrationForm(request):
-    if request.method == 'POST':
-        eventID = request.POST.get('Event')
-        userID = request.POST.get('User')
+def RegForm(request, event_id):
+    if request.method == "POST":
+        userID = request.POST.get("User")
 
-        event = Event.objects.get(EventID=eventID)
         user = Users.objects.get(UserID=userID)
-        
+        event = Event.objects.get(EventID=event_id)
+
         registration = Registration(UserID=user, EventID=event)
         registration.save()
 
         return redirect("registration-list")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
-    
+
+
 def signup(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('registration-list')  
+            return redirect("registration-list")
     else:
         form = SignUpForm(request)
 
-    return render(request, 'create_user.html')
+    return render(request, "create_user.html")
+
 
 def signupform(request):
-    if request.method == 'POST':
-        firstname = request.POST.get('first_name')
-        lastname = request.POST.get('last_name')
-        Username = request.POST.get('username')
-        Email = request.POST.get('email')
-        Password = request.POST.get('password')
+    if request.method == "POST":
+        firstname = request.POST.get("first_name")
+        lastname = request.POST.get("last_name")
+        Username = request.POST.get("username")
+        Email = request.POST.get("email")
+        Password = request.POST.get("password")
 
-        user = Users(first_name=firstname, last_name=lastname, username=Username, email=Email, password=Password)
+        user = Users(
+            first_name=firstname,
+            last_name=lastname,
+            username=Username,
+            email=Email,
+            password=Password,
+        )
         user.save()
 
         return redirect("home")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
 
+
 def create_feedback(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = FeedbackForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('registration-list')  
+            return redirect("registration-list")
     else:
         form = FeedbackForm(request)
 
@@ -160,43 +185,49 @@ def create_feedback(request):
 
     # Pass data to the template
     context = {
-        'form': form,
-        'Users': users,
-        'Events': event,
+        "form": form,
+        "Users": users,
+        "Events": event,
     }
 
-    return render(request, 'create_feedback.html', context)
+    return render(request, "create_feedback.html", context)
+
 
 def feedback_form(request):
     if request.method == "POST":
-        user = request.POST.get('User')
-        event = request.POST.get('Event')
-        rating = request.POST.get('rating')
-        comments = request.POST.get('comments')
+        user = request.POST.get("User")
+        event = request.POST.get("Event")
+        rating = request.POST.get("rating")
+        comments = request.POST.get("comments")
 
         event = Event.objects.get(EventID=event)
         user = Users.objects.get(UserID=user)
 
-        feedback = Feedback(UserID=user, EventID=event, Rating=rating, Comments=comments)
+        feedback = Feedback(
+            UserID=user, EventID=event, Rating=rating, Comments=comments
+        )
         feedback.save()
-        
+
         return redirect("feedback-list")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
-    
+
+
 class list_feedback(ListView):
     model = Feedback
-    template_name = 'feedback_list.html'
-    context_object_name = 'feedback'
-    paginate = 20  
+    template_name = "feedback_list.html"
+    context_object_name = "feedback"
+    paginate = 20
+
 
 def detail_event(request, pk):
     try:
         event = Event.objects.get(EventID=pk)
     except Event.DoesNotExist:
-        raise HttpResponse('Event Does Not Exist', status=404)
-    
-    return render(request, 'event_detail.html', context={'event': event})
+        raise HttpResponse("Event Does Not Exist", status=404)
+
+    return render(request, "event_detail.html", context={"event": event})
+
 
 def update_event(request, pk):
     event = Event.objects.get(EventID=pk)
@@ -205,13 +236,13 @@ def update_event(request, pk):
         # Create form or handle form submission logic here
         # If you're using a form, you can validate and save it like this:
         form = EventForm(request.POST, instance=event)
-        
+
         if form.is_valid():
             form.save()
-            return redirect(reverse_lazy('event-list'))
+            return redirect(reverse_lazy("event-list"))
         else:
             print(form.errors)
-    
+
     else:
         # If it's a GET request, prepopulate the form with event data
         form = EventForm(instance=event)
@@ -222,45 +253,50 @@ def update_event(request, pk):
 
     # Add the context for the template
     context = {
-        'event': event,
-        'form': form,
-        'Users': users,
-        'Category': category,
+        "event": event,
+        "form": form,
+        "Users": users,
+        "Category": category,
     }
 
-    return render(request, 'event_update.html', context)
+    return render(request, "event_update.html", context)
+
 
 def detail_user(request, pk):
     try:
         user = Users.objects.get(UserID=pk)
     except Event.DoesNotExist:
-        raise HttpResponse('User Does Not Exist', status=404)
-    
-    return render(request, 'user_detail.html', context={'User': user})
+        raise HttpResponse("User Does Not Exist", status=404)
+
+    return render(request, "user_detail.html", context={"User": user})
+
 
 class list_users(ListView):
     model = Users
-    template_name = 'user_list.html'
-    context_object_name = 'User'
-    paginate = 20  
+    template_name = "user_list.html"
+    context_object_name = "User"
+    paginate = 20
 
-def event_registrations(request,pk):
+
+def event_registrations(request, pk):
     try:
         event = Event.objects.get(EventID=pk)
         reg = Registration.objects.filter(EventID=event)
     except Event.DoesNotExist or Registration.DoesNotExist:
-        raise HttpResponse('Event or Registration Does Not Exist', status=404)
+        raise HttpResponse("Event or Registration Does Not Exist", status=404)
 
-    return render(request, 'event_registrations.html', context={
-        'Registrations': reg, 
-        'Event': event
-    })
+    return render(
+        request,
+        "event_registrations.html",
+        context={"Registrations": reg, "Event": event},
+    )
+
 
 def event_delete(request, pk):
     eve = get_object_or_404(Event, EventID=pk)
     if request.method == "POST":
         eve.delete()
-        success_url = reverse_lazy('event-list')
+        success_url = reverse_lazy("event-list")
         return redirect(success_url)
-    
-    return render(request, 'event_delete.html', context={'event': eve})
+
+    return render(request, "event_delete.html", context={"event": eve})
