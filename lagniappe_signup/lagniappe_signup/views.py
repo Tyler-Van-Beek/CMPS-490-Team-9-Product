@@ -92,12 +92,12 @@ class list_event(ListView):
 def create_reg(request, pk):
     event_id = pk
     if request.method == "POST":
-        form = RegForm(request.POST, event_id)
+        form = RegForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("registration-list")
     else:
-        form = RegForm(request, pk)
+        form = RegForm(request)
 
     # Fetch Users and Events for the context
     users = Users.objects.all()
@@ -121,12 +121,13 @@ class list_reg(ListView):
 
 
 @csrf_exempt
-def RegForm(request, event_id):
+def RegForm(request):
     if request.method == "POST":
         userID = request.POST.get("User")
+        event = request.POST.get("Event")
 
         user = Users.objects.get(UserID=userID)
-        event = Event.objects.get(EventID=event_id)
+        event = Event.objects.get(EventID=event)
 
         registration = Registration(UserID=user, EventID=event)
         registration.save()
