@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login,logout,authenticate
 
 
 def homepage(request):
@@ -25,13 +26,33 @@ def faq(request):
 
 
 def signin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        sign = authenticate(username=username, password=password)
+        print("Authenticated user:", sign)
+        print("Submitted username:", username)
+        print("Submitted password:", password)
+
+
+        if sign is not None:
+            login(request, sign)
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:
+                return redirect('home')
     return render(request, "signin.html")
+
+def signout(request):
+    logout(request)
+    return redirect('home')
 
 
 def eventMap(request):
     return render(request, "eventMap.html")
 
-
+@login_required(login_url="/signin/")
 def create_event(request):
     if request.method == "POST":
         form = EventForm(request.POST)
@@ -300,3 +321,11 @@ def event_delete(request, pk):
         return redirect(success_url)
 
     return render(request, "event_delete.html", context={"event": eve})
+
+@csrf_exempt
+def chat_response(request):
+    if request.method == 'POST':
+        msg = request.POST.get('message', '')
+        reply = f"I heard you say: {msg}"  # Replace this with smarter logic
+        return JsonResponse({'reply': reply})
+    return JsonResponse({'error': 'Invalid request'}, status=400)

@@ -51,10 +51,15 @@
                 margin: 0;
             ">
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'signin' %}">Sign In</a></li>
                 <li><a href="{% url 'event-list' %}">Events</a></li>
                 <li><a href="{% url 'map' %}">Event Map</a></li>
-                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                
+                {% if user.is_authenticated %}
+                    <li><a>Logged in as {{ user.username }}</a></li>
+                    <li><a href="{% url 'signout' %}">Sign Out</a></li>
+                {% else %}
+                    <li><a href="{% url 'signin' %}">Sign In</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
