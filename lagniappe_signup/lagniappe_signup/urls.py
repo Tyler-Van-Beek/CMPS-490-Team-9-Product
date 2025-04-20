@@ -46,7 +46,7 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('signup/', views.signup, name='signup'),
     path('signout/', views.signout, name='signout'),
-    path('profile/<int:pk>', views.detail_user, name="user-detail"),
+    path('profile/<int:pk>', views.detail_user, name="profile"),
     path('userlist', views.list_users.as_view(), name="user-list"),
     path('chat/', chat_response, name='chat'),
 ]

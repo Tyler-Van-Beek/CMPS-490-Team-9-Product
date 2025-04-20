@@ -16,16 +16,10 @@
 
         <form action="RegistrationForm/" method="POST">
             {% csrf_token %}
-            
-            <div class="form-group">
-                <label for="UserID">User</label>
-                <select id="UserID" name="User" required>
-                    <!-- Populate with available organizers (users) -->
-                    {% for user in Users %}
-                    <option value="{{ user.UserID }}">{{ user.first_name }} {{ user.last_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+
+            {% if user.is_authenticated%}
+                <input type="hidden" name="User" value="{{ user.UserID }}">
+            {% endif %}
 
             <input type="hidden" name="Event" value="{{ event.EventID }}">
 
