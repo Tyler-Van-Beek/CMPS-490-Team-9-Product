@@ -111,7 +111,7 @@ class list_event(ListView):
     context_object_name = "events"
     paginate = 20
 
-
+@login_required(login_url="/signin/")
 def create_reg(request, pk):
     event_id = pk
     if request.method == "POST":
@@ -165,7 +165,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("registration-list")
+            return redirect("home")
     else:
         form = SignUpForm(request)
 
@@ -193,7 +193,7 @@ def signupform(request):
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
 
-
+@login_required(login_url="/signin/")
 def create_feedback(request, pk):
     if request.method == "POST":
         form = FeedbackForm(request.POST)
@@ -251,7 +251,7 @@ def detail_event(request, pk):
 
     return render(request, "event_detail.html", context={"event": event})
 
-
+@login_required(login_url="/signin/")
 def update_event(request, pk):
     event = Event.objects.get(EventID=pk)
 
@@ -284,7 +284,7 @@ def update_event(request, pk):
 
     return render(request, "event_update.html", context)
 
-
+@login_required(login_url="/signin/")
 def detail_user(request, pk):
     try:
         user = Users.objects.get(UserID=pk)
@@ -300,7 +300,7 @@ class list_users(ListView):
     context_object_name = "User"
     paginate = 20
 
-
+@login_required(login_url="/signin/")
 def event_registrations(request, pk):
     try:
         event = Event.objects.get(EventID=pk)
@@ -308,10 +308,11 @@ def event_registrations(request, pk):
     except Event.DoesNotExist or Registration.DoesNotExist:
         raise HttpResponse("Event or Registration Does Not Exist", status=404)
 
-    return render(request, 'event_registrations.html', context={
-        'Registrations': reg, 
-        'Event': event
-    })
+    return render(
+        request,
+        "event_registrations.html",
+        context={"Registrations": reg, "Event": event},
+    )
 
 @csrf_exempt
 def chat_response(request):
@@ -321,6 +322,7 @@ def chat_response(request):
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+@login_required(login_url="/signin/")
 def event_delete(request, pk):
     eve = get_object_or_404(Event, EventID=pk)
     if request.method == "POST":
