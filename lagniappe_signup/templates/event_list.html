@@ -1,4 +1,4 @@
-{% extends "headBanner.html" %}
+{% extends "base.html" %}
 
 
 {% block content %}
@@ -10,7 +10,7 @@
     <ul style="list-style-type: none; padding-left: 0;">
       {% for event in events %}
         <li>
-          <a href="{% url 'event-detail' event.EventID %}">{{ event.Title }}</a>
+          <button onclick="window.location.href='{% url 'event-detail' event.EventID%}'" class="btn btn-info">{{ event.Title }}</button>
           <p><strong>Organizer:</strong> {{ event.OrganizerID }}</p>
           <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
           <p><strong>Location:</strong> {{ event.Location }}</p>
