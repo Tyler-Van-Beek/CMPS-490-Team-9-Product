@@ -43,7 +43,7 @@ def signin(request):
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
             else:
-                return redirect('home')
+                return redirect('signin')
     return render(request, "signin.html")
 
 def signout(request):
@@ -261,9 +261,11 @@ def update_event(request, pk):
         form = EventForm(request.POST, instance=event)
 
         if form.is_valid():
+            print("Form is valid")
             form.save()
             return redirect(reverse_lazy("event-list"))
         else:
+            print("Form is not valid")
             print(form.errors)
 
     else:
