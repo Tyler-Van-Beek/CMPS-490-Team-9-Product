@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 from AI_Chatbot.recommend_bot import get_recommendation
+from django.contrib import messages
 
 
 
@@ -40,10 +41,11 @@ def signin(request):
 
         if sign is not None:
             login(request, sign)
+            messages.success(request, 'Logged in')
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
             else:
-                return redirect('signin')
+                return redirect('home')
     return render(request, "signin.html")
 
 def signout(request):
@@ -99,6 +101,7 @@ def eventForm(request):
             DateTime=dateTime,
         )
         event.save()
+        messages.success(request, 'Event created!')
 
         return redirect("event-list")
     else:
@@ -154,6 +157,8 @@ def RegForm(request):
 
         registration = Registration(UserID=user, EventID=event)
         registration.save()
+        messages.success(request, 'Registration complete!')
+
 
         return redirect("registration-list")
     else:
@@ -165,7 +170,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("home")
+            return redirect("signin")
     else:
         form = SignUpForm(request)
 
@@ -188,6 +193,7 @@ def signupform(request):
             password=Password,
         )
         user.save()
+        messages.success(request, 'User created. Please sign in.')
 
         return redirect("home")
     else:
@@ -230,6 +236,7 @@ def feedback_form(request):
             UserID=user, EventID=event, Rating=rating, Comments=comments
         )
         feedback.save()
+        messages.success(request, 'Feedback submitted.')
 
         return redirect("feedback-list")
     else:
@@ -263,6 +270,7 @@ def update_event(request, pk):
         if form.is_valid():
             print("Form is valid")
             form.save()
+            messages.success(request, 'Event Updated.')
             return redirect(reverse_lazy("event-list"))
         else:
             print("Form is not valid")
@@ -329,6 +337,7 @@ def event_delete(request, pk):
     eve = get_object_or_404(Event, EventID=pk)
     if request.method == "POST":
         eve.delete()
+        messages.error(request, 'Event Deleted.')
         success_url = reverse_lazy("event-list")
         return redirect(success_url)
 
