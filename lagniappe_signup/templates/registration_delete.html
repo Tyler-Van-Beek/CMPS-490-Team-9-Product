@@ -10,15 +10,13 @@
         <form method="post" class = 'card'>
             {% csrf_token %}
             <h2>Delete Event</h2>
-            <p>Are you sure you want to delete {{ event.Title }}? </p>
+            <p>Are you sure you want to cancel your registration? </p>
             <button typ='submit' style="background-color: red">Yes</button>
             <button href="{% url 'event-detail' event.EventID %}" class ="btn btn-secondary" >Cancel</button>
         </form>
     </div>
     
 {% endif %}
-
-{% include "footer.html" %}
     
 </body>
 </html>
