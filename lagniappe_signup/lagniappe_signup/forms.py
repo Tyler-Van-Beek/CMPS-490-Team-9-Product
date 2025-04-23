@@ -20,6 +20,15 @@ class RegistrationForm(forms.ModelForm):
         model = Registration
         fields = ['UserID', 'EventID']
 
+        def __init__(self, *args, **kwargs):
+            # Extract the event from kwargs
+            self.event = kwargs.pop('event', None)  
+            super().__init__(*args, **kwargs)  
+
+            # If the event is provided, set the initial value for the 'EventID' field
+            if self.event:
+                self.fields['EventID'].initial = self.event  # Pre-set the EventID field with the event
+
 class SignUpForm(forms.ModelForm):
 
     class Meta:
@@ -31,6 +40,13 @@ class SignUpForm(forms.ModelForm):
             'email',
             'password',
         ]
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"]) 
+        if commit:
+            user.save()
+        return user
 
 class FeedbackForm(forms.ModelForm):
     class Meta:

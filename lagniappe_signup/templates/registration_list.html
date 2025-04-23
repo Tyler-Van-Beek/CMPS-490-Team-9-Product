@@ -1,11 +1,11 @@
-{% extends "headBanner.html" %}
+{% extends "base.html" %}
 
 
 {% block content %}
   <h1>Registrations</h1>
   
   {% if registrations %}
-    <ul>
+    <ul style="list-style-type: none; padding-left: 0;">
       {% for r in registrations %}
         <li>
           <h2>{{ r.RegistrationID }}</h2>

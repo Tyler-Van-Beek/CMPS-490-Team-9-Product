@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% if event %}
+    <div class = center>
+
+        <form method="post" class = 'card'>
+            {% csrf_token %}
+            <h2>Delete Event</h2>
+            <p>Are you sure you want to delete {{ event.Title }}? </p>
+            <button typ='submit' style="background-color: red">Yes</button>
+            <button href="{% url 'event-detail' event.EventID %}" class ="btn btn-secondary" >Cancel</button>
+        </form>
+    </div>
+    
+{% endif %}
+
+{% include "footer.html" %}
+    
+</body>
+</html>
+{% endblock %}

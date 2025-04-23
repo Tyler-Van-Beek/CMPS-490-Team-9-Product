@@ -1,10 +1,10 @@
-{% extends "headBanner.html" %}
+{% extends "base.html" %}
 
 {% block content %}
   <h1>User List</h1>
   
   {% if User %}
-    <ul>
+    <ul style="list-style-type: none; padding-left: 0;">
       {% for us in User %}
         <li>
           <a href="{% url 'user-detail' us.UserID %}">{{ us.username }}</a>
@@ -16,7 +16,7 @@
       {% endfor %}
     </ul>
 
-    <!-- Pagination links (if enabled) -->
+    <!-- Pagination links  -->
     <div>
       {% if is_paginated %}
         <span class="step-links">

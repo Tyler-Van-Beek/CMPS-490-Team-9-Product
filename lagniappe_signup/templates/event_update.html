@@ -1,4 +1,4 @@
-{% extends "headBanner.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href='css/style.css'>
 </head>
 <body>
+{% if user %}
     <div class="container">
         <h1>Edit Your Event</h1>
 
@@ -18,59 +19,49 @@
         <form method="POST">
             {% csrf_token %}
             
-            <div class="form-group">
-                <label for="OrganizerID">Organizer</label>
-                <select id="OrganizerID" name="Organizer" required>
-                    <!-- Populate with available organizers (users) -->
-                    {% for user in Users %}
-                    <option value="{{ user.UserID }}">{{ user.first_name }} {{ user.last_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            {% if user.is_authenticated%}
+                <input type="hidden" name="OrganizerID" value="{{ user.UserID }}">
+            {% endif %}
 
             <div class="form-group">
                 <label for="CategoryID">Category</label>
-                <select id="CategoryID" name="Category" required>
+                <select id="CategoryID" name="CategoryID" required>
                     <!-- Populate with available categories -->
                     {% for c in Category %}
-                        <option value="{{ c.Name }}">{{ c.Name }}</option>
+                        <option value="{{ c.CategoryID }}">{{ c.Name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="Title">Event Title</label>
-                <input type="text" id="Title" name="Title" required maxlength="100">
+                <input type="text" id="Title" value = "{{ event.Title }}" name="Title" required maxlength="100">
             </div>
 
             <div class="form-group">
                 <label for="Description">Event Description</label>
-                <textarea id="Description" name="Description" required maxlength="500"></textarea>
+                <input id="Description" name="Description" value = "{{ event.Description }}" required maxlength="500"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="Location">Event Location</label>
-                <input type="text" id="Location" name="Location" required maxlength="100">
+                <input type="text" id="Location" name="Location" value = "{{ event.Location }}" required maxlength="100">
             </div>
 
             <div class="form-group">
                 <label for="DateTime">Event Date and Time</label>
-                <input type="datetime-local" id="DateTime" name="DateTime" required>
-            </div>
-
-            <div class="form-group">
-                <label for="EventStatus">Event Status</label>
-                <input type="checkbox" id="EventStatus" name="EventStatus" checked>
-                <span>Event is Active</span>
+                <input type="datetime-local" id="DateTime" value = "{{ event.DateTime }}" name="DateTime" required>
             </div>
 
             <div class="form-group">
                 <button type="submit">Update Event</button>
             </div>
+            
         </form>
     </div>
 
-    {% include "footer.html" %}
+{% endif %}
+{% include "footer.html" %}
 </body>
 </html>
 {% endblock %}

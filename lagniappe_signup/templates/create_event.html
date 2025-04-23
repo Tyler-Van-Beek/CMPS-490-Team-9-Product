@@ -1,4 +1,4 @@
-{% extends "headBanner.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -16,15 +16,9 @@
         <form action="event-list/" method="POST">
             {% csrf_token %}
             
-            <div class="form-group">
-                <label for="OrganizerID">Organizer</label>
-                <select id="OrganizerID" name="Organizer" required>
-                    <!-- Populate with available organizers (users) -->
-                    {% for user in Users %}
-                    <option value="{{ user.UserID }}">{{ user.first_name }} {{ user.last_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            {% if user.is_authenticated%}
+                <input type="hidden" name="Organizer" value="{{ user.UserID }}">
+            {% endif %}
 
             <div class="form-group">
                 <label for="CategoryID">Category</label>
@@ -43,7 +37,7 @@
 
             <div class="form-group">
                 <label for="Description">Event Description</label>
-                <textarea id="Description" name="Description" required maxlength="500"></textarea>
+                <input id="Description" name="Description" required maxlength="500"></textarea>
             </div>
 
             <div class="form-group">
@@ -54,12 +48,6 @@
             <div class="form-group">
                 <label for="DateTime">Event Date and Time</label>
                 <input type="datetime-local" id="DateTime" name="DateTime" required>
-            </div>
-
-            <div class="form-group">
-                <label for="EventStatus">Event Status</label>
-                <input type="checkbox" id="EventStatus" name="EventStatus" checked>
-                <span>Event is Active</span>
             </div>
 
             <div class="form-group">

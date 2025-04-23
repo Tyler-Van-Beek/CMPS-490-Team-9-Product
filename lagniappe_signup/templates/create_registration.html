@@ -1,4 +1,4 @@
-{% extends "headBanner.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -12,30 +12,16 @@
 <body>
     
     <div class="container">
-        <h1>Register for an Event</h1>
+        <h1>Register for {{event.Title}}</h1>
 
         <form action="RegistrationForm/" method="POST">
             {% csrf_token %}
-            
-            <div class="form-group">
-                <label for="UserID">User</label>
-                <select id="UserID" name="User" required>
-                    <!-- Populate with available organizers (users) -->
-                    {% for user in Users %}
-                    <option value="{{ user.UserID }}">{{ user.first_name }} {{ user.last_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
 
-            <div class="form-group">
-                <label for="EventID">Event</label>
-                <select id="EventID" name="Event" required>
-                    <!-- Populate with available categories -->
-                    {% for events in Events %}
-                        <option value="{{ events.EventID }}">{{ events.Title }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            {% if user.is_authenticated%}
+                <input type="hidden" name="User" value="{{ user.UserID }}">
+            {% endif %}
+
+            <input type="hidden" name="Event" value="{{ event.EventID }}">
 
             <div class="form-group">
                 <button type="submit">Register</button>

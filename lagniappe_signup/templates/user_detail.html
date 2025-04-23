@@ -1,4 +1,4 @@
-{% extends "headBanner.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -15,9 +15,8 @@
     <p><strong>Name:</strong> {{ User.first_name }}{{ User.last_name }}</p>
     <p><strong>Username:</strong> {{ User.username }}</p>
     <p><strong>E-mail:</strong> {{ User.email }}</p>
-    <p><strong>Password:</strong> {{ User.password }}</p>
 
-    <button onclick="window.location.href='{% url 'user-list' %}'" class="btn btn-info">Back to User List</button>
+    <button onclick="window.location.href='{% url 'signout' %}'" class="btn btn-info">Sign Out</button>
     
     {% include "footer.html" %}
     
