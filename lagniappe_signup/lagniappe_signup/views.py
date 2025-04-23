@@ -254,12 +254,22 @@ class list_feedback(ListView):
 def detail_event(request, pk):
     try:
         event = Event.objects.get(EventID=pk)
-        user = request.user 
-        registr = Registration.objects.get(EventID=pk, UserID=user)
     except Event.DoesNotExist:
         raise HttpResponse("Event Does Not Exist", status=404)
+    
 
-    return render(request, "event_detail.html", context={"event": event})
+    user = request.user
+    is_registered = Registration.objects.filter(EventID=pk, UserID=user).exists()
+    reg = None
+
+    if is_registered:
+        reg = Registration.objects.get(EventID=pk, UserID=user)
+
+    return render(request, "event_detail.html", context={
+        "event": event,
+        "reg": reg,
+        "is_registered": is_registered
+    })
 
 @login_required(login_url="/signin/")
 def update_event(request, pk):
