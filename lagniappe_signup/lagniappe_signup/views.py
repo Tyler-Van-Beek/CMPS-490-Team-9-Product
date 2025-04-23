@@ -14,6 +14,7 @@ from django.contrib.auth import login,logout,authenticate
 from AI_Chatbot.recommend_bot import get_recommendation
 from django.contrib import messages
 
+from django.contrib import messages
 
 
 def homepage(request):
@@ -259,6 +260,7 @@ def detail_event(request, pk):
     return render(request, "event_detail.html", context={"event": event})
 
 @login_required(login_url="/signin/")
+@login_required(login_url="/signin/")
 def update_event(request, pk):
     event = Event.objects.get(EventID=pk)
 
@@ -267,14 +269,18 @@ def update_event(request, pk):
         # If you're using a form, you can validate and save it like this:
         form = EventForm(request.POST, instance=event)
 
+
         if form.is_valid():
+            print("Form is valid")
             print("Form is valid")
             form.save()
             messages.success(request, 'Event Updated.')
             return redirect(reverse_lazy("event-list"))
         else:
             print("Form is not valid")
+            print("Form is not valid")
             print(form.errors)
+
 
     else:
         # If it's a GET request, prepopulate the form with event data
@@ -286,6 +292,10 @@ def update_event(request, pk):
 
     # Add the context for the template
     context = {
+        "event": event,
+        "form": form,
+        "Users": users,
+        "Category": category,
         "event": event,
         "form": form,
         "Users": users,
@@ -317,12 +327,24 @@ def event_registrations(request, pk):
         reg = Registration.objects.filter(EventID=event)
     except Event.DoesNotExist or Registration.DoesNotExist:
         raise HttpResponse("Event or Registration Does Not Exist", status=404)
+        raise HttpResponse("Event or Registration Does Not Exist", status=404)
 
     return render(
         request,
         "event_registrations.html",
         context={"Registrations": reg, "Event": event},
     )
+
+@login_required(login_url="/signin/")
+def event_delete(request, pk):
+    eve = get_object_or_404(Event, EventID=pk)
+    if request.method == "POST":
+        eve.delete()
+        messages.error(request, 'Event Deleted.')
+        success_url = reverse_lazy("event-list")
+        return redirect(success_url)
+
+    return render(request, "event_delete.html", context={"event": eve})
 
 @csrf_exempt
 def chat_response(request):
