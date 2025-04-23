@@ -269,12 +269,10 @@ def update_event(request, pk):
 
         if form.is_valid():
             print("Form is valid")
-            print("Form is valid")
             form.save()
             messages.success(request, 'Event Updated.')
             return redirect(reverse_lazy("event-list"))
         else:
-            print("Form is not valid")
             print("Form is not valid")
             print(form.errors)
 
@@ -323,7 +321,6 @@ def event_registrations(request, pk):
         event = Event.objects.get(EventID=pk)
         reg = Registration.objects.filter(EventID=event)
     except Event.DoesNotExist or Registration.DoesNotExist:
-        raise HttpResponse("Event or Registration Does Not Exist", status=404)
         raise HttpResponse("Event or Registration Does Not Exist", status=404)
 
     return render(
