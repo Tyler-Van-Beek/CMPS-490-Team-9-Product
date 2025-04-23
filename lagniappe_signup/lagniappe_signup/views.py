@@ -291,10 +291,6 @@ def update_event(request, pk):
         "form": form,
         "Users": users,
         "Category": category,
-        "event": event,
-        "form": form,
-        "Users": users,
-        "Category": category,
     }
 
     return render(request, "event_update.html", context)
