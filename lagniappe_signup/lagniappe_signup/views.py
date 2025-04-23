@@ -14,8 +14,6 @@ from django.contrib.auth import login,logout,authenticate
 from AI_Chatbot.recommend_bot import get_recommendation
 from django.contrib import messages
 
-from django.contrib import messages
-
 
 def homepage(request):
     return render(request, "home.html")
@@ -260,7 +258,6 @@ def detail_event(request, pk):
     return render(request, "event_detail.html", context={"event": event})
 
 @login_required(login_url="/signin/")
-@login_required(login_url="/signin/")
 def update_event(request, pk):
     event = Event.objects.get(EventID=pk)
 
@@ -353,15 +350,3 @@ def chat_response(request):
         reply = get_recommendation(msg)  # Replace this with smarter logic
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)
-
-@login_required(login_url="/signin/")
-def event_delete(request, pk):
-    eve = get_object_or_404(Event, EventID=pk)
-    if request.method == "POST":
-        eve.delete()
-        messages.error(request, 'Event Deleted.')
-        success_url = reverse_lazy("event-list")
-        return redirect(success_url)
-
-    return render(request, "event_delete.html", context={"event": eve})
-
