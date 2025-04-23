@@ -11,6 +11,7 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
+from AI_Chatbot.recommend_bot import get_recommendation
 
 
 def homepage(request):
@@ -273,6 +274,6 @@ def event_registrations(request,pk):
 def chat_response(request):
     if request.method == 'POST':
         msg = request.POST.get('message', '')
-        reply = f"I heard you say: {msg}"  # Replace this with smarter logic
+        reply = get_recommendation(msg)  # Replace this with smarter logic
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)
