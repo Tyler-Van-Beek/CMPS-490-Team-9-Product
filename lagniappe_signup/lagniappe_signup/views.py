@@ -254,6 +254,8 @@ class list_feedback(ListView):
 def detail_event(request, pk):
     try:
         event = Event.objects.get(EventID=pk)
+        user = request.user 
+        registr = Registration.objects.get(EventID=pk, UserID=user)
     except Event.DoesNotExist:
         raise HttpResponse("Event Does Not Exist", status=404)
 
