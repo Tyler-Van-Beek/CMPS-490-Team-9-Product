@@ -12,7 +12,7 @@
 <body>
     
     <div class="container">
-        <h1>Register for {{event.Title}}</h1>
+        <h1>Register for {{event.Title}}?</h1>
 
         <form action="RegistrationForm/" method="POST">
             {% csrf_token %}
@@ -24,8 +24,10 @@
             <input type="hidden" name="Event" value="{{ event.EventID }}">
 
             <div class="form-group">
-                <button type="submit">Register</button>
+                <button type="submit">Yes</button>
             </div>
+
+            <button type="button" onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary">No</button>
         </form> 
         
     </div> 
