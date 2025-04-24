@@ -22,7 +22,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from events.models import Users, Event, Category, Feedback, Registration
-from .views import chat_response
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -49,5 +49,6 @@ urlpatterns = [
     path('signout/', views.signout, name='signout'),
     path('profile/<int:pk>', views.detail_user, name="profile"),
     path('userlist', views.list_users.as_view(), name="user-list"),
-    path('chat/', chat_response, name='chat'),
+    path('chat/', views.chat_response, name='chat'),
+    path('calendar/',views.calendar,name='calendar')
 ]
