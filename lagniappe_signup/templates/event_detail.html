@@ -22,16 +22,21 @@
     <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
     <p><strong>Description:</strong> {{ event.Description }}</p>
 
-    <button onclick="window.location.href='{% url 'registration-create' event.EventID %}'" class="btn btn-success">Register</button>
+    {% if is_registered %}
+    <button onclick="window.location.href='{% url 'registration-delete' reg.RegistrationID %}'" class="btn btn-success">Cancel Registration</button>
+    {% else %}
+        <button onclick="window.location.href='{% url 'registration-create' event.EventID %}'" class="btn btn-success">Register</button>
+    {% endif %}
+
     <button onclick="window.location.href='{% url 'feedback-create' event.EventID %}'" class="btn btn-info">Give Feedback</button>
+
     {% if user  == event.OrganizerID %}
         <button onclick="window.location.href='{% url 'event-registrations' event.EventID%}'" class="btn btn-info">View Registrations</button>
         <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary">Edit Event</button>
         <button onclick="window.location.href='{% url 'event-delete' event.EventID%}'" class="btn btn-danger" style="background-color: red">Delete</button>
 
     {% endif %}
-    
-    {% include "footer.html" %}
+
     
 </body>
 </html>

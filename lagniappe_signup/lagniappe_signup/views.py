@@ -161,7 +161,7 @@ def RegForm(request):
         messages.success(request, 'Registration complete!')
 
 
-        return redirect("registration-list")
+        return redirect('event-detail', pk = event.EventID)
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
 
@@ -255,9 +255,23 @@ def detail_event(request, pk):
     try:
         event = Event.objects.get(EventID=pk)
     except Event.DoesNotExist:
-        raise HttpResponse("Event Does Not Exist", status=404)
+        return HttpResponse("Event Does Not Exist", status=404)
+    
+    reg = None
+    user = None
+    is_registered = False
+    if request.user.is_authenticated: 
+        user = request.user
+        is_registered = Registration.objects.filter(EventID=pk, UserID=user.UserID).exists()
+        
+        if is_registered:
+            reg = Registration.objects.get(EventID=pk, UserID=user.UserID)
 
-    return render(request, "event_detail.html", context={"event": event})
+    return render(request, "event_detail.html", context={
+        "event": event,
+        "reg": reg,
+        "is_registered": is_registered
+    })
 
 @login_required(login_url="/signin/")
 def update_event(request, pk):
@@ -268,7 +282,6 @@ def update_event(request, pk):
         # If you're using a form, you can validate and save it like this:
         form = EventForm(request.POST, instance=event)
 
-
         if form.is_valid():
             print("Form is valid")
             form.save()
@@ -278,7 +291,6 @@ def update_event(request, pk):
         else:
             print("Form is not valid")
             print(form.errors)
-
 
     else:
         # If it's a GET request, prepopulate the form with event data
@@ -344,6 +356,18 @@ def event_delete(request, pk):
 def chat_response(request):
     if request.method == 'POST':
         msg = request.POST.get('message', '')
-        reply = get_recommendation(msg)  # Replace this with smarter logic
+        reply = get_recommendation(msg)
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required(login_url="/signin/")
+def reg_delete(request, pk):
+    reg = get_object_or_404(Registration, RegistrationID=pk)
+    if request.method == "POST":
+        reg.delete()
+        messages.error(request, 'Registration Cancelled.')
+        success_url = reverse_lazy("event-detail", kwargs={"pk": reg.EventID.EventID})
+        populate_index()
+        return redirect(success_url)
+
+    return render(request, "registration_delete.html", context={"reg": reg})
