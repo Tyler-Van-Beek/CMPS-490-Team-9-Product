@@ -1,5 +1,15 @@
 import openai
 from pinecone import Pinecone
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Load .env file (if running the bot standalone)
+env_path = Path(__file__).resolve().parent.parent / '.env'
+load_dotenv(env_path)
+
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
 
 def get_api_key(filename):
     """ Given a filename, return the API key in that file """
@@ -10,8 +20,8 @@ def get_api_key(filename):
     except FileNotFoundError:
         print("'%s' file not found" % filename)
 
-OPENAI_API_KEY = get_api_key('openAI_APIkey')
-PINECONE_API_KEY = get_api_key('pinecone_APIkey')
+#OPENAI_API_KEY = get_api_key('openAI_APIkey')
+#PINECONE_API_KEY = get_api_key('pinecone_APIkey')
 INDEX_NAME = "myindex"
 EMBEDDING_MODEL = "text-embedding-ada-002"
 GPT_MODEL = "gpt-4o-mini"

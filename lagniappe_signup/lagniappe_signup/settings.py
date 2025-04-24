@@ -12,12 +12,20 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 
 from pathlib import Path ; import os
+from dotenv import load_dotenv
 
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#allows our site to use the keys
+dotenv_path = BASE_DIR / '.env'
+
+load_dotenv(dotenv_path)
+
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/

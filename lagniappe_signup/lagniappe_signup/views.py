@@ -11,7 +11,9 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
+from AI_Chatbot.recommend_bot import get_recommendation
 from django.contrib import messages
+from AI_Chatbot.embed_current_events import populate_index
 
 
 def homepage(request):
@@ -100,6 +102,7 @@ def eventForm(request):
         )
         event.save()
         messages.success(request, 'Event created!')
+        populate_index()
 
         return redirect("event-list")
     else:
@@ -265,14 +268,17 @@ def update_event(request, pk):
         # If you're using a form, you can validate and save it like this:
         form = EventForm(request.POST, instance=event)
 
+
         if form.is_valid():
             print("Form is valid")
             form.save()
             messages.success(request, 'Event Updated.')
+            populate_index()
             return redirect(reverse_lazy("event-list"))
         else:
             print("Form is not valid")
             print(form.errors)
+
 
     else:
         # If it's a GET request, prepopulate the form with event data
@@ -329,6 +335,7 @@ def event_delete(request, pk):
         eve.delete()
         messages.error(request, 'Event Deleted.')
         success_url = reverse_lazy("event-list")
+        populate_index()
         return redirect(success_url)
 
     return render(request, "event_delete.html", context={"event": eve})
@@ -337,6 +344,6 @@ def event_delete(request, pk):
 def chat_response(request):
     if request.method == 'POST':
         msg = request.POST.get('message', '')
-        reply = f"I heard you say: {msg}"  # Replace this with smarter logic
+        reply = get_recommendation(msg)  # Replace this with smarter logic
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)
