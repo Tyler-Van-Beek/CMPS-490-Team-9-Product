@@ -13,7 +13,6 @@ PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
 
 def get_api_key(filename):
     """ Given a filename, return the API key in that file """
-    print ()
     try:
         with open(filename, 'r') as f:
             # File should contain a single line, with the API key

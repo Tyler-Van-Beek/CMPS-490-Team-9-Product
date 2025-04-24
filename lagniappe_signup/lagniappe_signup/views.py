@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 from AI_Chatbot.recommend_bot import get_recommendation
 from django.contrib import messages
+from AI_Chatbot.embed_current_events import populate_index
 
 
 def homepage(request):
@@ -101,6 +102,7 @@ def eventForm(request):
         )
         event.save()
         messages.success(request, 'Event created!')
+        populate_index()
 
         return redirect("event-list")
     else:
@@ -271,6 +273,7 @@ def update_event(request, pk):
             print("Form is valid")
             form.save()
             messages.success(request, 'Event Updated.')
+            populate_index()
             return redirect(reverse_lazy("event-list"))
         else:
             print("Form is not valid")
@@ -332,6 +335,7 @@ def event_delete(request, pk):
         eve.delete()
         messages.error(request, 'Event Deleted.')
         success_url = reverse_lazy("event-list")
+        populate_index()
         return redirect(success_url)
 
     return render(request, "event_delete.html", context={"event": eve})
