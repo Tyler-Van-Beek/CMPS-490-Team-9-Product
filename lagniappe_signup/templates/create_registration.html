@@ -23,11 +23,10 @@
 
             <input type="hidden" name="Event" value="{{ event.EventID }}">
 
-            <div class="form-group">
+            <div class="button-group">
                 <button type="submit">Yes</button>
+                <button type="button" onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary">No</button>
             </div>
-
-            <button type="button" onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary">No</button>
         </form> 
         
     </div> 
