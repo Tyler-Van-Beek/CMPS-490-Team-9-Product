@@ -371,3 +371,6 @@ def reg_delete(request, pk):
         return redirect(success_url)
 
     return render(request, "registration_delete.html", context={"reg": reg})
+
+def calendar(request):
+    temp=""
