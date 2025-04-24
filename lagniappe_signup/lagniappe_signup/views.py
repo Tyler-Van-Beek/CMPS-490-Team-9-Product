@@ -258,17 +258,19 @@ def detail_event(request, pk):
         raise HttpResponse("Event Does Not Exist", status=404)
     
 
-    user = request.user
-    is_registered = Registration.objects.filter(EventID=pk, UserID=user).exists()
-    reg = None
+    # if request.user.is_authenticated: 
+    # user = request.user
 
-    if is_registered:
-        reg = Registration.objects.get(EventID=pk, UserID=user)
+    # is_registered = Registration.objects.filter(EventID=pk, UserID=user.UserID).exists()
+    # reg = None
+
+    # if is_registered:
+    #     reg = Registration.objects.get(EventID=pk, UserID=user)
 
     return render(request, "event_detail.html", context={
         "event": event,
-        "reg": reg,
-        "is_registered": is_registered
+        # "reg": reg,
+        #"is_registered": is_registered
     })
 
 @login_required(login_url="/signin/")
@@ -280,7 +282,6 @@ def update_event(request, pk):
         # If you're using a form, you can validate and save it like this:
         form = EventForm(request.POST, instance=event)
 
-
         if form.is_valid():
             print("Form is valid")
             form.save()
@@ -290,7 +291,6 @@ def update_event(request, pk):
         else:
             print("Form is not valid")
             print(form.errors)
-
 
     else:
         # If it's a GET request, prepopulate the form with event data
@@ -356,6 +356,8 @@ def event_delete(request, pk):
 def chat_response(request):
     if request.method == 'POST':
         msg = request.POST.get('message', '')
-        reply = get_recommendation(msg)  # Replace this with smarter logic
+        reply = get_recommendation(msg)
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
