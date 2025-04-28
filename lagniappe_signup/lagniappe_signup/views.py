@@ -46,10 +46,13 @@ def signin(request):
                 return redirect(request.POST.get('next'))
             else:
                 return redirect('home')
+        else:
+            messages.error(request, 'Incorrect login information')
     return render(request, "signin.html")
 
 def signout(request):
     logout(request)
+    messages.success(request, 'Signed out')
     return redirect('home')
 
 
@@ -206,7 +209,8 @@ def create_feedback(request, pk):
         form = FeedbackForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("registration-list")
+            messages.success(request, 'Feedback submitted.')
+            return redirect("event-detail", pk=pk)
     else:
         form = FeedbackForm(request)
 
@@ -239,7 +243,7 @@ def feedback_form(request):
         feedback.save()
         messages.success(request, 'Feedback submitted.')
 
-        return redirect("feedback-list")
+        return redirect("event-detail", pk=event.EventID)
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
 
