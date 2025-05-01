@@ -12,6 +12,8 @@
 <body>
 {% if user %}
     <div class="container">
+        <button onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary" style="background-color: purple; color: white;">Back</button>
+
         <h1>Edit {{ event.Title }}</h1>
 
         <form method="POST" style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 550px;">

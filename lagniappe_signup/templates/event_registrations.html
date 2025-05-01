@@ -2,6 +2,9 @@
 
 
 {% block content %}
+
+<button onclick="window.location.href='{% url 'event-detail' Event.EventID%}'" class="btn btn-secondary" style="background-color: purple; color: white;">Back</button>
+
   <h1>Registrations for {{ Event.Title }}</h1>
   
   {% if Registrations %}
