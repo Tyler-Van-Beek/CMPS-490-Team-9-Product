@@ -23,9 +23,9 @@
 
             <input type="hidden" name="Event" value="{{ event.EventID }}">
 
-            <div class="button-group">
-                <button type="submit">Yes</button>
-                <button type="button" onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary">No</button>
+            <div class="container"  style="display: flex; justify-content: center; align-items: center; height: 5vh; margin: 0;">
+                <button type="submit" style="margin-right:16px">Yes</button>
+                <button type="button" onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary" style="color: white">No</button>
             </div>
         </form> 
         
