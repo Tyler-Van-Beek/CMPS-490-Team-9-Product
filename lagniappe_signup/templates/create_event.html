@@ -13,7 +13,7 @@
     <div class="container">
         <h1>Create New Event</h1>
 
-        <form action="event-list/" method="POST">
+        <form action="event-list/" method="POST" style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 550px;">
             {% csrf_token %}
             
             {% if user.is_authenticated%}
@@ -32,17 +32,17 @@
 
             <div class="form-group">
                 <label for="Title">Title</label>
-                <input type="text" id="Title" name="Title" required maxlength="100">
+                <input type="text" id="Title" name="Title" required maxlength="100" style="width: 350px">
             </div>
 
             <div class="form-group">
                 <label for="Description">Description</label>
-                <input id="Description" name="Description" required maxlength="500"></textarea>
+                <textarea id="Description" name="Description" required maxlength="500" style="height: 100px; width: 350px"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="Location">Location</label>
-                <input type="text" id="Location" name="Location" required maxlength="100">
+                <input type="text" id="Location" name="Location" required maxlength="100" style="width: 350px">
             </div>
 
             <div class="form-group">
