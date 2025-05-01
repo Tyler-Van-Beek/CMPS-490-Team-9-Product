@@ -174,6 +174,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account created. Please sign in')
             return redirect("signin")
     else:
         form = SignUpForm(request)
