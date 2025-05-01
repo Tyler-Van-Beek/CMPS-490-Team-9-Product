@@ -292,7 +292,7 @@ def update_event(request, pk):
             form.save()
             messages.success(request, 'Event Updated.')
             populate_index()
-            return redirect(reverse_lazy("event-list"))
+            return redirect("event-detail", pk=event.EventID)
         else:
             print("Form is not valid")
             print(form.errors)
