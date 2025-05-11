@@ -2,19 +2,22 @@
 
 
 {% block content %}
+
+<button onclick="window.location.href='{% url 'event-detail' Event.EventID%}'" class="btn btn-secondary" style="background-color: purple; color: white;">Back</button>
+
   <h1>Registrations for {{ Event.Title }}</h1>
   
   {% if Registrations %}
-    <ul>
+    <div style="display: flex; flex-wrap: wrap; gap: 50px; center-content: flex-start;">
       {% for r in Registrations %}
-        <li>
-          <h2>{{ r.RegistrationID }}</h2>
-          <p><strong>Registered User:</strong> {{ r.UserID }}</p>
-          <p><strong>For Event:</strong> {{ r.EventID }}</p>
-          <p><strong>Registration Status:</strong> {% if r.RegistrationStatus %}Active{% else %}Inactive{% endif %}</p>
-        </li>
+      <div class="card" style="height: 100px;">
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 16px; width: 300px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); background: white;">
+          <h2>Registration ID: {{ r.RegistrationID }}</h2>
+          <p><strong>User:</strong> {{ r.UserID.username }}</p>
+        </div>
+      </div>
       {% endfor %}
-    </ul>
+    </div>
 
     <!-- Pagination links (if enabled) -->
     <div>

@@ -174,6 +174,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account created. Please sign in')
             return redirect("signin")
     else:
         form = SignUpForm(request)
@@ -291,7 +292,7 @@ def update_event(request, pk):
             form.save()
             messages.success(request, 'Event Updated.')
             populate_index()
-            return redirect(reverse_lazy("event-list"))
+            return redirect("event-detail", pk=event.EventID)
         else:
             print("Form is not valid")
             print(form.errors)

@@ -11,7 +11,7 @@
 </head>
 <body>
     
-    <button onclick="window.location.href='{% url 'event-list' %}'" class="btn btn-secondary">Back</button>
+    <button onclick="window.location.href='{% url 'event-list' %}'" class="btn btn-secondary" style="background-color: purple; color: white;">Back</button>
     <h1>{{ event.Title }}</h1>
 
     
@@ -32,7 +32,7 @@
 
     {% if user  == event.OrganizerID %}
         <button onclick="window.location.href='{% url 'event-registrations' event.EventID%}'" class="btn btn-info">View Registrations</button>
-        <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary">Edit Event</button>
+        <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary" style="background-color: purple; color: white;">Edit Event</button>
         <button onclick="window.location.href='{% url 'event-delete' event.EventID%}'" class="btn btn-danger" style="background-color: red">Delete</button>
 
     {% endif %}
